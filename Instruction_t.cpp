@@ -56,6 +56,6 @@ public:
 
     OpCode getOpCode(void)
     {
-        return (f << 3) | m;
+        return (OpCode)((f << 3) | m);
     }
-}
+};
