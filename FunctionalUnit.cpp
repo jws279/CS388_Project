@@ -1,11 +1,26 @@
 
 #include "FunctionalUnit.h"
 
-FunctionalUnit::FunctionalUnit(void)
+FunctionalUnit::FunctionalUnit(int segment_time, int executionTime)
 {
-    result = -1;
-    segmentTime = -1;
-    executionTime = -1;
+    resultIsReady = false;
+    dontExecuteInstruction = false;
+    segmentTime = segment_time;
+    executionTime = executionTime;
+    pipelineLength = static_cast<int>(ceil(segmentTime / static_cast<float>(executionTime)));
+    pipeline = new pipelineItem[pipelineLength];
+    //Clear the pipeline
+    for(int i=0; i < pipelineLength; i++)
+    {
+        pipeline[i].isValid = false;
+    }
+}
+
+FunctionalUnit::FunctionalUnit(int executionTime)
+{
+    resultIsReady = false;
+    segmentTime = executionTime;
+    executionTime = executionTime;
     pipelineLength = static_cast<int>(ceil(segmentTime / static_cast<float>(executionTime)));
     pipeline = new pipelineItem[pipelineLength];
     //Clear the pipeline
@@ -29,16 +44,19 @@ void FunctionalUnit::clockTick(void)
 {
     for(int i=0; i < pipelineLength; i++)
     {
-        if(pipeline[i].isValid)
+        if(!(i == pipelineLength - 1 && dontExecuteInstruction))  // Make sure we don't push forward instructions which have halted execution for data dependency
         {
-            if(pipeline[i].clockTicks == executionTime)
+            if(pipeline[i].isValid)
             {
-                result = calculateResult(pipeline[i].inst);
-            }
-            else if(pipeline[i].clockTicks == segmentTime)
-            {
-                pipeline[i - 1] = pipeline[i];
-                pipeline[i].isValid = false;
+                if(pipeline[i].clockTicks == executionTime)
+                {
+                    resultIsReady = true;
+                }
+                else if(pipeline[i].clockTicks == segmentTime)
+                {
+                    pipeline[i - 1] = pipeline[i];
+                    pipeline[i].isValid = false;
+                }
             }
         }
     }
@@ -46,15 +64,19 @@ void FunctionalUnit::clockTick(void)
 
 bool FunctionalUnit::resultReady(void)
 {
-    // return pipeline[0].clockTicks == executionTime;
-    return result != -1;
+    int ret = resultIsReady;
+    resultIsReady = false;
+    return ret;
 }
 
-int FunctionalUnit::getResult(void)
+int FunctionalUnit::resetResult(void)
 {
-    int ret = result;
-    result = -1;
-    return ret;
+    resultIsReady = false;
+}
+
+void FunctionalUnit::setExecuteInstruction(bool execute)
+{
+    dontExecuteInstruction = !execute;
 }
 
 int FunctionalUnit::pushPipeline(Instruction i)

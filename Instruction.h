@@ -2,8 +2,20 @@
 #define INSTRUCTION_H
 
 typedef enum {
-        no,  // no-op
-
+    stop,
+    noop,
+    branchIncrement,
+    branchLongAdd,
+    branchUnconditional,
+    floatingAdd,
+    floatingMultiply,
+    floatingDivide,
+    fixedAdd,
+    increment,
+    boolean,
+    shift,
+    populationCount,
+    normalize,
 } OpCodeEnum;
 
 class Instruction
@@ -11,12 +23,8 @@ class Instruction
 private:
     OpCodeEnum fm;
     int i;
-    int* iPointer;
     int j;
-    int* jPointer;
     int k;
-    int* kPointer;
-    bool isLongFormat;
     bool validInstruction;
 
 public:
@@ -28,13 +36,6 @@ public:
     int getI(void);
     int getJ(void);
     int getK(void);
-    bool isLong(void);
-    void setIPointer(int* iPointer);
-    void setJPointer(int* jPointer);
-    void setKPointer(int* kPointer);
-    int getDereferencedI(void);
-    int getDereferencedJ(void);
-    int getDereferencedK(void);
     bool isValid(void);
 };
 

@@ -30,27 +30,32 @@ typedef struct
 class FunctionalUnit
 {
 private:
-    int result;
+    bool resultIsReady;
     int segmentTime;
     int executionTime;
     int pipelineLength;
+    bool dontExecuteInstruction;
     pipelineItem *pipeline;
     functionalUnitEnum unitType;
     virtual int calculateResult(Instruction inst)=0;
 
 
 public:
-    FunctionalUnit(void);
+    FunctionalUnit(int segment_time, int executionTime);  // 7600
+    FunctionalUnit(int executionTime);  // 6600
 
     ~FunctionalUnit(void);
 
     bool resultReady(void);
 
-    int getResult(void);
+    void resetResult(void);
 
     bool pipelineSlotAvailable(void);
 
     void clockTick(void);//Not sure if this should be public or private
+
+    //This should be used for data dependencies where we need to load an instruction but not execute it.
+    void setExecuteInstruction(bool execute);
 
     //Pushes the next instruction to the front and i onto the back.
     //Returns 1 on success. Returns 0 if a new instruction cannot be pushed yet.
