@@ -51,3 +51,8 @@ bool opCodeIsLong(OpCodeEnum op)////////////THIS IS A PLACEHOLDER!
 {
     return false;
 }
+
+void Instruction::setNoop() {
+	fm = noop_INSTR;
+	validInstruction = true;
+}

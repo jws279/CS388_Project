@@ -1,9 +1,6 @@
 #include "InstructionPipeline.h"
 
 InstructionPipeline::InstructionPipeline(Scoreboard7600 *scoreboard) {
-	reg_U0 = 0;
-	reg_U1 = 0;
-	reg_U2 = 0;
 
 	scoreboard_ptr = scoreboard;
 }
@@ -12,11 +9,24 @@ InstructionPipeline::~InstructionPipeline() {
 	// Do nothing
 }
 
-bool InstructionPipeline::cycle(Instruction* instruction) {
-	if(scoreboard_ptr->receiveNextInstruction(*reg_U2)) {
+bool InstructionPipeline::cycle(Instruction instruction) {
+	if(!reg_U2.isValid()) {
+		reg_U2.setNoop();
+	}
+	cout<<reg_U2.getFm()<<" "<<reg_U2.getI()<<" "<<reg_U2.getJ()<<" "<<reg_U2.getK()<<endl;
+	if(!reg_U2.isValid()) {
 		reg_U2 = reg_U1;
 		reg_U1 = reg_U0;
 		reg_U0 = instruction;
+	}
+	else if(scoreboard_ptr->receiveNextInstruction(reg_U2)) {
+		reg_U2 = reg_U1;
+		reg_U1 = reg_U0;
+		reg_U0 = instruction;
+
+		if(!reg_U2.isValid()) {
+			reg_U2.setNoop();
+		}
 
 		return true;
 	}

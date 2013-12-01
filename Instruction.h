@@ -42,6 +42,7 @@ public:
     int getK(void);
     bool isValid(void);
     bool isLong();
+	void setNoop();
 };
 
 bool opCodeIsLong(OpCodeEnum op);

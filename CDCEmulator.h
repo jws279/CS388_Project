@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "Scoreboard7600.h"
+#include "InstructionPipeline.h"
+#include "InstructionParser.h"
 
 class CDCEmulator {
 public:
@@ -12,12 +14,12 @@ public:
 
 private:
 	//Vector<Instruction_t> instructionStack; //Not actually instructions, need to be 60-bit words
-	Scoreboard7600 *scoreboard;
-
 	//TableBuilder
 
 protected:
 	int fetchDelay;
+	Scoreboard7600 *scoreboard;
+	InstructionPipeline *instrPipe;
 
 };
 

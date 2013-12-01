@@ -38,7 +38,7 @@ FunctionalUnit::~FunctionalUnit(void)
     {
         delete &pipeline[i];
     }
-    delete[] pipeline;
+    //delete pipeline;
 }
 
 

@@ -12,5 +12,8 @@ int main() {
 	emu->run();
 	delete emu;
 
+	char a;
+	cin>>a;
+
 	return 0;
 }

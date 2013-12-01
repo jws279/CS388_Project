@@ -5,16 +5,17 @@
 vector<Instruction> parseInstructionFile(string fileName)
 {
     vector<Instruction> v;
-    char buf[MAX_CHARS_PER_LINE];
+    char buf[64];
     ifstream fin(fileName.c_str(), std::ifstream::in);
     if(!fin.good())
     {
         printf("Unable to open instruction file!\n\r");
         return v;
     }
+        fin.getline(buf, MAX_CHARS_PER_LINE+1);
+
     while(!fin.eof())
     {
-        fin.getline(buf, MAX_CHARS_PER_LINE);
         //Check to be sure line is valid
         for(int i = 0; i < MAX_CHARS_PER_LINE; i++)
         {
@@ -136,6 +137,7 @@ vector<Instruction> parseInstructionFile(string fileName)
             v.push_back(inst);
 
         }
+        fin.getline(buf, MAX_CHARS_PER_LINE+1);
     }
     fin.close();
     return v;
