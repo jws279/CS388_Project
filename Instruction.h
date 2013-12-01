@@ -2,6 +2,7 @@
 #define INSTRUCTION_H
 
 typedef enum {
+    invalid_INSTR,
     stop_INSTR,
     noop_INSTR,
     branchIncrement_INSTR,
@@ -11,9 +12,11 @@ typedef enum {
     floatingMultiply_INSTR,
     floatingDivide_INSTR,
     fixedAdd_INSTR,
+    fixedLongAdd_INSTR,
     increment_INSTR,
     boolean_INSTR,
     shift_INSTR,
+    shiftNormalize_INSTR,
     populationCount_INSTR,
     normalize_INSTR,
 } OpCodeEnum;
@@ -38,6 +41,9 @@ public:
     int getJ(void);
     int getK(void);
     bool isValid(void);
+    bool isLong();
 };
+
+bool opCodeIsLong(OpCodeEnum op);
 
 #endif

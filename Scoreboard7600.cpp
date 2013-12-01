@@ -137,7 +137,7 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     int readRegisters[2];
     bool conflictExists = false;
     readRegisters[0] = inst.getJ();
-    if(instIsLong(inst))
+    if(inst.isLong())
     {
         readRegisters[1] = inst.getK();
     }
@@ -177,9 +177,4 @@ bool Scoreboard7600::writeAfterReadConflict(Instruction inst)
     }
 
 	return conflictExists;
-}
-
-bool Scoreboard7600::instIsLong(Instruction inst)/////////////////////////////////THIS IS A PLACEHOLDER
-{
-    return false;
 }

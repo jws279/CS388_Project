@@ -6,7 +6,7 @@ int main() {
 	CDCEmulator *emu = new CDC6600Emulator();
 	emu->run();
 	delete emu;
-	
+
 	// Run the CDC6600 Emulator
 	emu = new CDC7600Emulator();
 	emu->run();

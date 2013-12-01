@@ -26,7 +26,6 @@ private:
     bool writeAfterWriteConflict(Instruction inst);
     bool readAfterWriteConflict(Instruction inst);
     bool writeAfterReadConflict(Instruction inst);
-    bool instIsLong(Instruction inst);
 
 public:
     Scoreboard7600();

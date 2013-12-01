@@ -41,3 +41,13 @@ bool Instruction::isValid(void)
 {
     return validInstruction;
 }
+
+bool Instruction::isLong(void)
+{
+    return opCodeIsLong(fm);
+}
+
+bool opCodeIsLong(OpCodeEnum op)////////////THIS IS A PLACEHOLDER!
+{
+    return false;
+}
