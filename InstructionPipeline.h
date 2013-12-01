@@ -18,7 +18,7 @@ private:
 	Instruction reg_U0;
 	Instruction reg_U1;
 	Instruction reg_U2;
-	
+
 	Scoreboard7600 *scoreboard_ptr;
 };
 
