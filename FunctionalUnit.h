@@ -7,15 +7,15 @@
 
 
 typedef enum {
-    add,
-    multiply,
-    divide,
-    fixed_add,
-    increment,
-    pop_count,
-    boolean,
-    shift,
-    normalize,
+    add_FU,
+    multiply_FU,
+    divide_FU,
+    fixed_add_FU,
+    increment_FU,
+    pop_count_FU,
+    boolean_FU,
+    shift_FU,
+    normalize_FU,
 } functionalUnitEnum;
 
 
@@ -37,8 +37,7 @@ private:
     bool dontExecuteInstruction;
     pipelineItem *pipeline;
     functionalUnitEnum unitType;
-    virtual int calculateResult(Instruction inst) = 0;
-    int instructionIterator = 0;
+    int instructionIterator;
 
 
 public:
@@ -71,13 +70,13 @@ public:
 
     //This is an accessor for the instructions in the functional unit's pipe.
     //Gets instruction at index i where 0 is the oldest instruction in the pipe
-    void getInstruction(int i);
+    Instruction getInstruction(int i);
 
-    void getPipelineLength();
+    int getPipelineLength();
 
     //Returns true if an instruction has been issued to the functional unit
     //but is not being executed.
-    void getDontExecuteInstruction();
+    bool getDontExecuteInstruction();
 };
 
 

@@ -2,7 +2,7 @@
 #define CDCEMULATOR_H
 
 #include <vector>
-#include "scoreboard.h"
+#include "Scoreboard7600.h"
 
 class CDCEmulator {
 public:
@@ -12,13 +12,12 @@ public:
 
 private:
 	//Vector<Instruction_t> instructionStack; //Not actually instructions, need to be 60-bit words
-	//Registers
-	//InstructionPipeline
-	Scoreboard scoreboard;
-	//ALU/Functional Units
-	//CentralStorage
+	Scoreboard7600 *scoreboard;
 
 	//TableBuilder
+
+protected:
+	int fetchDelay;
 
 };
 

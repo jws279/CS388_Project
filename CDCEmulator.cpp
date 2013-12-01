@@ -1,11 +1,11 @@
 #include "CDCEmulator.h"
 
-CDCEmulator::CDCEmulator() {
-	
+CDCEmulator::CDCEmulator() : fetchDelay(0) {
+	scoreboard = new Scoreboard7600();
 }
 
 CDCEmulator::~CDCEmulator() {
-
+	delete scoreboard;
 }
 
 int CDCEmulator::run() {

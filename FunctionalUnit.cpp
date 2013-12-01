@@ -3,6 +3,7 @@
 
 FunctionalUnit::FunctionalUnit(int segment_time, int executionTime)
 {
+	instructionIterator = 0;
     resultIsReady = false;
     dontExecuteInstruction = false;
     segmentTime = segment_time;
@@ -18,6 +19,7 @@ FunctionalUnit::FunctionalUnit(int segment_time, int executionTime)
 
 FunctionalUnit::FunctionalUnit(int executionTime)
 {
+	instructionIterator = 0;
     resultIsReady = false;
     segmentTime = executionTime;
     executionTime = executionTime;
@@ -64,12 +66,12 @@ void FunctionalUnit::clockTick(void)
 
 bool FunctionalUnit::resultReady(void)
 {
-    int ret = resultIsReady;
+    bool ret = resultIsReady;
     resultIsReady = false;
     return ret;
 }
 
-int FunctionalUnit::resetResult(void)
+void FunctionalUnit::resetResult(void)
 {
     resultIsReady = false;
 }
@@ -110,7 +112,7 @@ bool FunctionalUnit::functionalUnitConflict(void)
     return pipeline[pipelineLength - 1].isValid;
 }
 
-void FunctionalUnit::getInstruction(int i)
+Instruction FunctionalUnit::getInstruction(int i)
 {
     if(i < 0)
     {
@@ -120,12 +122,12 @@ void FunctionalUnit::getInstruction(int i)
     return pipeline[i].inst;
 }
 
-void FunctionalUnit::getPipelineLength()
+int FunctionalUnit::getPipelineLength()
 {
     return pipelineLength;
 }
 
-void FunctionalUnit::getDontExecuteInstruction()
+bool FunctionalUnit::getDontExecuteInstruction()
 {
     return dontExecuteInstruction;
 }

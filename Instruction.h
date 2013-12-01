@@ -2,20 +2,20 @@
 #define INSTRUCTION_H
 
 typedef enum {
-    stop,
-    noop,
-    branchIncrement,
-    branchLongAdd,
-    branchUnconditional,
-    floatingAdd,
-    floatingMultiply,
-    floatingDivide,
-    fixedAdd,
-    increment,
-    boolean,
-    shift,
-    populationCount,
-    normalize,
+    stop_INSTR,
+    noop_INSTR,
+    branchIncrement_INSTR,
+    branchLongAdd_INSTR,
+    branchUnconditional_INSTR,
+    floatingAdd_INSTR,
+    floatingMultiply_INSTR,
+    floatingDivide_INSTR,
+    fixedAdd_INSTR,
+    increment_INSTR,
+    boolean_INSTR,
+    shift_INSTR,
+    populationCount_INSTR,
+    normalize_INSTR,
 } OpCodeEnum;
 
 class Instruction

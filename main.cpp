@@ -2,8 +2,15 @@
 #include "CDC7600Emulator.h"
 
 int main() {
-	CDCEmulator *emu = new CDC7600Emulator();
-
+	// Run the CDC6600 Emulator
+	CDCEmulator *emu = new CDC6600Emulator();
+	emu->run();
 	delete emu;
+	
+	// Run the CDC6600 Emulator
+	emu = new CDC7600Emulator();
+	emu->run();
+	delete emu;
+
 	return 0;
 }

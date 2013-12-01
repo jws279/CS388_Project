@@ -2,25 +2,27 @@
 #define SCOREBOARD_H
 
 #include "Instruction.h"
+#include "FunctionalUnit.h"
 
 
 class Scoreboard7600 {
 private:
 
-    FunctionalUnit floatingAdder;
-    FunctionalUnit multiplier;
-    FunctionalUnit divider;
-    FunctionalUnit fixedAdder;
-    FunctionalUnit increment;
-    FunctionalUnit boolean;
-    FunctionalUnit shift;
-    FunctionalUnit popCount;
-    FunctionalUnit normalize;
+    FunctionalUnit *floatingAdder;
+    FunctionalUnit *multiplier;
+    FunctionalUnit *divider;
+    FunctionalUnit *fixedAdder;
+    FunctionalUnit *incrementer;
+    FunctionalUnit *booleaner;
+    FunctionalUnit *shifter;
+    FunctionalUnit *popCounter;
+    FunctionalUnit *normalizer;
 
-    FunctionalUnit functionalUnits[] = {floatingAdder, multiplier, divider, fixedAdder, increment, boolean, shift, popCount, normalize};
+    FunctionalUnit** functionalUnits;
+	static const int num_FU = 9;
 
     void clockTick();
-    bool functionalUnitConflict(FunctionalUnit fu);
+    bool functionalUnitConflict(FunctionalUnit *fu);
     bool writeAfterWriteConflict(Instruction inst);
     bool readAfterWriteConflict(Instruction inst);
     bool writeAfterReadConflict(Instruction inst);
@@ -28,8 +30,9 @@ private:
 
 public:
     Scoreboard7600();
+	~Scoreboard7600();
     bool receiveNextInstruction(Instruction instruction);
-}
+};
 
 #endif
 
