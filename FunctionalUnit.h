@@ -37,7 +37,8 @@ private:
     bool dontExecuteInstruction;
     pipelineItem *pipeline;
     functionalUnitEnum unitType;
-    virtual int calculateResult(Instruction inst)=0;
+    virtual int calculateResult(Instruction inst) = 0;
+    int instructionIterator = 0;
 
 
 public:
@@ -50,7 +51,7 @@ public:
 
     void resetResult(void);
 
-    bool pipelineSlotAvailable(void);
+    bool functionalUnitConflict(void);
 
     void clockTick(void);//Not sure if this should be public or private
 
@@ -58,16 +59,25 @@ public:
     void setExecuteInstruction(bool execute);
 
     //Pushes the next instruction to the front and i onto the back.
-    //Returns 1 on success. Returns 0 if a new instruction cannot be pushed yet.
     //This also executes clockTick() if it is a valid time to push an instruction
-    //onto the pipeline.
-    int pushPipeline(Instruction i);
+    //onto the pipeline. This assumes it is safe to push on an instruction.
+    void pushPipeline(Instruction i);
 
     //Pushes the next instruction to the front and null onto the back.
     //This also executes clockTick()
     void pushPipeline();
 
     void print();
+
+    //This is an accessor for the instructions in the functional unit's pipe.
+    //Gets instruction at index i where 0 is the oldest instruction in the pipe
+    void getInstruction(int i);
+
+    void getPipelineLength();
+
+    //Returns true if an instruction has been issued to the functional unit
+    //but is not being executed.
+    void getDontExecuteInstruction();
 };
 
 

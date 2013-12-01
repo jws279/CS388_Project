@@ -26,6 +26,7 @@ private:
     int j;
     int k;
     bool validInstruction;
+    bool longInstruction;
 
 public:
     //Creates a valid instruction

@@ -3,6 +3,7 @@
 
 #include "Instruction.h"
 
+
 class Scoreboard7600 {
 private:
 
@@ -16,11 +17,21 @@ private:
     FunctionalUnit popCount;
     FunctionalUnit normalize;
 
+    FunctionalUnit functionalUnits[] = {floatingAdder, multiplier, divider, fixedAdder, increment, boolean, shift, popCount, normalize};
+
     void clockTick();
+    bool functionalUnitConflict(FunctionalUnit fu);
+    bool writeAfterWriteConflict(Instruction inst);
+    bool readAfterWriteConflict(Instruction inst);
+    bool writeAfterReadConflict(Instruction inst);
+    bool instIsLong(Instruction inst);
 
 public:
-    bool receiveNextInstruction(Instruction instruction);
     Scoreboard7600();
+    bool receiveNextInstruction(Instruction instruction);
 }
 
 #endif
+
+
+////////MAYBE SHOULD MAKE THIS SCOREBOARD WHICH 7600 AND 6600 INHERITS

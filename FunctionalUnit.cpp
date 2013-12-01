@@ -79,17 +79,12 @@ void FunctionalUnit::setExecuteInstruction(bool execute)
     dontExecuteInstruction = !execute;
 }
 
-int FunctionalUnit::pushPipeline(Instruction i)
+void FunctionalUnit::pushPipeline(Instruction i)
 {
-    if(pipelineSlotAvailable())
-    {
-        clockTick();
-        pipeline[pipelineLength - 1].isValid = true;
-        pipeline[pipelineLength - 1].clockTicks = 0;
-        pipeline[pipelineLength - 1].inst = i;
-        return 1;
-    }
-    return 0;
+    clockTick();
+    pipeline[pipelineLength - 1].isValid = true;
+    pipeline[pipelineLength - 1].clockTicks = 0;
+    pipeline[pipelineLength - 1].inst = i;
 }
 
 void FunctionalUnit::pushPipeline()
@@ -109,7 +104,28 @@ void FunctionalUnit::print()
     }
 }
 
-bool FunctionalUnit::pipelineSlotAvailable(void)
+bool FunctionalUnit::functionalUnitConflict(void)
 {
-    return !pipeline[pipelineLength - 1].isValid;
+    //Returns true if an instruction is in the back of the pipe
+    return pipeline[pipelineLength - 1].isValid;
+}
+
+void FunctionalUnit::getInstruction(int i)
+{
+    if(i < 0)
+    {
+        //Allow for negative indexes
+        i = getPipelineLength() + i;
+    }
+    return pipeline[i].inst;
+}
+
+void FunctionalUnit::getPipelineLength()
+{
+    return pipelineLength;
+}
+
+void FunctionalUnit::getDontExecuteInstruction()
+{
+    return dontExecuteInstruction;
 }
