@@ -62,10 +62,6 @@ public:
     //onto the pipeline. This assumes it is safe to push on an instruction.
     void pushPipeline(Instruction i);
 
-    //Pushes the next instruction to the front and null onto the back.
-    //This also executes clockTick()
-    void pushPipeline();
-
     void print();
 
     //This is an accessor for the instructions in the functional unit's pipe.

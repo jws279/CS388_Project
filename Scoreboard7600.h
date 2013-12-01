@@ -21,6 +21,8 @@ private:
     FunctionalUnit** functionalUnits;
 	static const int num_FU = 9;
 
+    bool stop_found;
+
     void clockTick();
     bool functionalUnitConflict(FunctionalUnit *fu);
     bool writeAfterWriteConflict(Instruction inst);
@@ -31,9 +33,7 @@ public:
     Scoreboard7600();
 	~Scoreboard7600();
     bool receiveNextInstruction(Instruction instruction);
+    bool stopFound();
 };
 
 #endif
-
-
-////////MAYBE SHOULD MAKE THIS SCOREBOARD WHICH 7600 AND 6600 INHERITS

@@ -83,16 +83,9 @@ void FunctionalUnit::setExecuteInstruction(bool execute)
 
 void FunctionalUnit::pushPipeline(Instruction i)
 {
-    clockTick();
     pipeline[pipelineLength - 1].isValid = true;
     pipeline[pipelineLength - 1].clockTicks = 0;
     pipeline[pipelineLength - 1].inst = i;
-}
-
-void FunctionalUnit::pushPipeline()
-{
-    clockTick();
-    pipeline[pipelineLength - 1].isValid = false;
 }
 
 void FunctionalUnit::print()
@@ -100,9 +93,9 @@ void FunctionalUnit::print()
     for(int i=0; i < pipelineLength; i++)
     {
         printf("Pipeline Index: %i\n\r", i);
-        printf("    isValid: %i", pipeline[i].isValid);
-        printf("    clockTicks: %i", pipeline[i].clockTicks);
-        printf("    Instruction OpCode: %i", pipeline[i].inst.getFm());
+        printf("    isValid: %i\n\r", pipeline[i].isValid);
+        printf("    clockTicks: %i\n\r", pipeline[i].clockTicks);
+        printf("    Instruction OpCode: %i\n\r", pipeline[i].inst.getFm());
     }
 }
 

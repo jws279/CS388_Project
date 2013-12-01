@@ -24,6 +24,8 @@ Scoreboard7600::Scoreboard7600()
 	functionalUnits[5] = shifter;
 	functionalUnits[6] = popCounter;
 	functionalUnits[7] = normalizer;
+
+    stop_found = false;
 }
 
 Scoreboard7600::~Scoreboard7600() {
@@ -38,16 +40,21 @@ Scoreboard7600::~Scoreboard7600() {
     delete normalizer;
 }
 
-//returns false on failure
-//return true on success
+//returns false if pipeline should be halted and true otherwise
 bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED TO BE FINISHED
 {
-    bool success = true;
+    bool haltPipeline = false;
     FunctionalUnit *fu;
     switch(inst.getFm())
     {
+        case invalid_INSTR:
+            printf("Invalid instruction found!\n\r");
+            haltPipeline = false;
+        case stop_INSTR:
+            stop_found = true;
+            haltPipeline = true;
         case noop_INSTR:
-			success = true;
+			haltPipeline = false;
             break;
         case branchIncrement_INSTR:
 
@@ -91,21 +98,24 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
             return false;
     }
 
-    success &= !functionalUnitConflict(fu);
-    if(success)
+    if(inst.getFm() != invalid_INSTR)
     {
-        fu->pushPipeline(inst);
-    }
-
-
-    if(success)//?
+        haltPipeline |= !functionalUnitConflict(fu);
         clockTick();
-    return success;
+        if(!haltPipeline && inst.getFm() != noop_INSTR)
+        {
+            fu->pushPipeline(inst);
+        }
+    }
+    return haltPipeline;
 }
 
 void Scoreboard7600::clockTick()
 {
-
+    for(int i = 0; i < num_FU; i++)
+    {
+        functionalUnits[i]->clockTick();
+    }
 }
 
 bool Scoreboard7600::functionalUnitConflict(FunctionalUnit *fu)
@@ -177,4 +187,9 @@ bool Scoreboard7600::writeAfterReadConflict(Instruction inst)
     }
 
 	return conflictExists;
+}
+
+bool Scoreboard7600::stopFound()
+{
+    return stop_found;
 }
