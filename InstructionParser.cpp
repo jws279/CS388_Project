@@ -47,6 +47,7 @@ vector<Instruction> parseInstructionFile(string fileName)
                         {
                             case 0:
                                 op = stop_INSTR;
+                                longInstruction = false;
                                 break;
                             case 1:
                             case 2:
