@@ -34,6 +34,7 @@ public:
 	~Scoreboard7600();
     bool receiveNextInstruction(Instruction instruction);
     bool stopFound();
+	void cycleTillDone();
 };
 
 #endif
