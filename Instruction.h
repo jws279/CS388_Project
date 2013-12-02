@@ -12,7 +12,6 @@ typedef enum {
     floatingMultiply_INSTR,
     floatingDivide_INSTR,
     fixedAdd_INSTR,
-    fixedLongAdd_INSTR,
     increment_INSTR,
     boolean_INSTR,
     shift_INSTR,

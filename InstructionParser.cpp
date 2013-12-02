@@ -90,11 +90,11 @@ vector<Instruction> parseInstructionFile(string fileName)
                             case 3:
                             case 4:
                             case 5:
-                                op = fixedAdd_INSTR;
+                                op = floatingAdd_INSTR;
                                 break;
                             case 6:
                             case 7:
-                                op = fixedLongAdd_INSTR;
+                                op = fixedAdd_INSTR;
                                 break;
                         }
                         break;
