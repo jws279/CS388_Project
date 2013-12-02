@@ -11,6 +11,7 @@ public:
 	CDCEmulator();
 	~CDCEmulator();
 	virtual int run();
+    static int clockTickCount;
 
 private:
 	//Vector<Instruction_t> instructionStack; //Not actually instructions, need to be 60-bit words
