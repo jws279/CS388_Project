@@ -1,11 +1,12 @@
 #include "Instruction.h"
 
-Instruction::Instruction(OpCodeEnum op, int I, int J, int K)
+Instruction::Instruction(OpCodeEnum op, int I, int J, int K, bool isLong)
 {
     fm = op;
     i = I;
     j = J;
     k = K;
+    longInstruction = isLong;
     validInstruction = true;
 }
 
@@ -15,6 +16,7 @@ Instruction::Instruction(void)
     j = -1;
     k = -1;
     validInstruction = false;
+    longInstruction = false;
 }
 
 OpCodeEnum Instruction::getFm(void)
@@ -44,12 +46,7 @@ bool Instruction::isValid(void)
 
 bool Instruction::isLong(void)
 {
-    return opCodeIsLong(fm);
-}
-
-bool opCodeIsLong(OpCodeEnum op)////////////THIS IS A PLACEHOLDER!
-{
-    return false;
+    return longInstruction;
 }
 
 void Instruction::setNoop() {
@@ -57,12 +54,12 @@ void Instruction::setNoop() {
 	validInstruction = true;
 }
 
-void setInstructionNumb(int numb)
+void Instruction::setInstructionNumb(int numb)
 {
     instructionNumb = numb;
 }
 
-int getInstructionNumb()
+int Instruction::getInstructionNumb()
 {
     return instructionNumb;
 }

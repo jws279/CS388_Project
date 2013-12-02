@@ -34,7 +34,7 @@ private:
 
 public:
     //Creates a valid instruction
-    Instruction(OpCodeEnum op, int i, int j, int k);
+    Instruction(OpCodeEnum op, int i, int j, int k, bool isLong);
     //Creates an invalid instruction
     Instruction(void);
     OpCodeEnum getFm(void);
@@ -47,7 +47,5 @@ public:
     void setInstructionNumb(int numb);
     int getInstructionNumb();
 };
-
-bool opCodeIsLong(OpCodeEnum op);
 
 #endif

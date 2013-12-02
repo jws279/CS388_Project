@@ -36,11 +36,13 @@ vector<Instruction> parseInstructionFile(string fileName)
                 int i = -1;
                 int j = -1;
                 int k = -1;
+                bool longInstruction = false;
     			cout<<"buffer: "<<(char)(buf[offset + 0]+'0')<<endl;
                 //Get the parse the op code
                 switch(buf[offset + 0])
                 {
                     case 0:  // Branch
+                        longInstruction = true;
                         switch(buf[offset + 1])
                         {
                             case 0:
@@ -118,6 +120,18 @@ vector<Instruction> parseInstructionFile(string fileName)
                                 break;
                         }
                         break;
+                    case 6:
+                        op = increment_INSTR;
+                        switch(buf[offset + 1])
+                        {
+                            case 0:
+                            case 1:
+                            case 2:
+                                longInstruction = true;
+                                break;
+                        }
+                        break;
+
                     default:  // Increment
                         op = increment_INSTR;
                         break;
@@ -125,7 +139,7 @@ vector<Instruction> parseInstructionFile(string fileName)
 
                 i = buf[offset + 2];
                 j = buf[offset + 3];
-                if(opCodeIsLong(op))
+                if(longInstruction)
                 {
                     k = (buf[offset + 4] << 15) | (buf[offset + 5] << 12) | (buf[offset + 6] << 9) |
                         (buf[offset + 7] << 6) | (buf[offset + 7] << 3) | buf[offset + 3];
@@ -137,7 +151,7 @@ vector<Instruction> parseInstructionFile(string fileName)
                     offset += 5;  // offset 5 characters (15 bits)
                 }
 
-                Instruction inst(op, i, j, k);
+                Instruction inst(op, i, j, k, longInstruction);
                 v.push_back(inst);
 
             }
