@@ -10,9 +10,9 @@ InstructionPipeline::~InstructionPipeline() {
 }
 
 bool InstructionPipeline::cycle(Instruction instruction) {
-	if(!reg_U2.isValid()) {
-		reg_U2.setNoop();
-	}
+	//if(!reg_U2.isValid()) {
+	//	reg_U2.setNoop();
+	//}
 	cout<<reg_U2.getFm()<<" "<<reg_U2.getI()<<" "<<reg_U2.getJ()<<" "<<reg_U2.getK()<<endl;
 	if(!reg_U2.isValid()) {
 		reg_U2 = reg_U1;

@@ -33,6 +33,7 @@ vector<Instruction> parseInstructionFile(string fileName)
             int i = -1;
             int j = -1;
             int k = -1;
+			cout<<"buffer: "<<(char)(buf[offset + 0]+'0')<<endl;
             //Get the parse the op code
             switch(buf[offset + 0])
             {
@@ -130,7 +131,7 @@ vector<Instruction> parseInstructionFile(string fileName)
             else
             {
                 k = buf[offset + 4];
-                offset += 3;  // offset 3 characters (15 bits)
+                offset += 5;  // offset 5 characters (15 bits)
             }
 
             Instruction inst(op, i, j, k);

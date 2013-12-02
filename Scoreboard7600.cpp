@@ -20,10 +20,10 @@ Scoreboard7600::Scoreboard7600()
 	functionalUnits[2] = divider;
 	functionalUnits[3] = fixedAdder;
 	functionalUnits[4] = incrementer;
-	functionalUnits[4] = booleaner;
-	functionalUnits[5] = shifter;
-	functionalUnits[6] = popCounter;
-	functionalUnits[7] = normalizer;
+	functionalUnits[5] = booleaner;
+	functionalUnits[6] = shifter;
+	functionalUnits[7] = popCounter;
+	functionalUnits[8] = normalizer;
 
     stop_found = false;
 }
@@ -44,15 +44,17 @@ Scoreboard7600::~Scoreboard7600() {
 bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED TO BE FINISHED
 {
     bool haltPipeline = false;
-    FunctionalUnit *fu;
+    FunctionalUnit *fu = 0;
     switch(inst.getFm())
     {
         case invalid_INSTR:
             printf("Invalid instruction found!\n\r");
             haltPipeline = false;
+			break;
         case stop_INSTR:
             stop_found = true;
             haltPipeline = true;
+			break;
         case noop_INSTR:
 			haltPipeline = false;
             break;
@@ -100,7 +102,7 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
 
     if(inst.getFm() != invalid_INSTR)
     {
-        haltPipeline |= !functionalUnitConflict(fu);
+        haltPipeline |= functionalUnitConflict(fu);
         clockTick();
         if(!haltPipeline && inst.getFm() != noop_INSTR)
         {
@@ -120,6 +122,9 @@ void Scoreboard7600::clockTick()
 
 bool Scoreboard7600::functionalUnitConflict(FunctionalUnit *fu)
 {
+	if(!fu) {
+		return false;
+	}
     return fu->functionalUnitConflict();
 }
 
