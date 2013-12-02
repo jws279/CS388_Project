@@ -13,6 +13,11 @@ int CDC7600Emulator::run() {
 
 	for(unsigned int i = 0; i < instruction.size(); i++) {
 		instrPipe->cycle(instruction[i]);
+
+		if(scoreboard->stopFound()) {
+			scoreboard->cycleTillDone();
+			break;
+		}
 	}
 
 	return 0;

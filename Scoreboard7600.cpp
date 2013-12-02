@@ -71,10 +71,10 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
             fu = floatingAdder;
             break;
         case floatingMultiply_INSTR:
-
+			fu = multiplier;
             break;
         case floatingDivide_INSTR:
-
+			fu = divider;
             break;
         case fixedAdd_INSTR:
             fu = fixedAdder;
@@ -197,4 +197,23 @@ bool Scoreboard7600::writeAfterReadConflict(Instruction inst)
 bool Scoreboard7600::stopFound()
 {
     return stop_found;
+}
+
+void Scoreboard7600::cycleTillDone()
+{
+	bool done = false;
+	bool FU_busy = false;
+	while(!done){
+		clockTick();
+		done = true;
+		for(int i = 0; i < num_FU; i++) {
+			FU_busy = false;
+			for(int j = 0; j < functionalUnits[i]->getPipelineLength(); j++) {
+				FU_busy |= functionalUnits[i]->getInstruction(j).isValid();
+			}
+			done &= !FU_busy;
+		}
+	};
+
+    return;
 }
