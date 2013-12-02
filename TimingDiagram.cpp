@@ -1,14 +1,14 @@
 #include "TimingDiagram.h"
 
-// //Constructs blank timing diagram
-// TimingDiagram::TimingDiagram()
-// {
-
-// }
+//Constructs blank timing diagram
+TimingDiagram::TimingDiagram()
+{
+	clockTickCount = 0;
+}
 
 TimingDiagram::~TimingDiagram()
 {
-    for(int i=0; i < table.size(); i++)
+    for(unsigned int i=0; i < table.size(); i++)
     {
         delete table[i];
     }
@@ -20,7 +20,7 @@ TimingDiagram::~TimingDiagram()
 bool TimingDiagram::tableToCsv(string fileName)
 {
     string tableString;
-    for(int i = 0; i < table.size(); i++)
+    for(unsigned int i = 0; i < table.size(); i++)
     {
         if(i > 0)
             tableString += ",";
@@ -61,7 +61,7 @@ bool TimingDiagram::setIssue(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][ISSUE_INDEX] = CDCEmulator::clockTickCount;
+    table[instNumb][ISSUE_INDEX] = clockTickCount;
     return true;
 }
 
@@ -71,7 +71,7 @@ bool TimingDiagram::setStart(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][START_INDEX] = CDCEmulator::clockTickCount;
+    table[instNumb][START_INDEX] = clockTickCount;
     return true;
 }
 
@@ -81,7 +81,7 @@ bool TimingDiagram::setResult(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][RESULT_INDEX] = CDCEmulator::clockTickCount;
+    table[instNumb][RESULT_INDEX] = clockTickCount;
     return true;
 }
 
@@ -91,7 +91,7 @@ bool TimingDiagram::setUnit(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][UNIT_INDEX] = CDCEmulator::clockTickCount;
+    table[instNumb][UNIT_INDEX] = clockTickCount;
     return true;
 }
 
@@ -101,7 +101,7 @@ bool TimingDiagram::setFetch(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][FETCH_INDEX] = CDCEmulator::clockTickCount;
+    table[instNumb][FETCH_INDEX] = clockTickCount;
     return true;
 }
 
@@ -111,6 +111,10 @@ bool TimingDiagram::setStore(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][STORE_INDEX] = CDCEmulator::clockTickCount;
+    table[instNumb][STORE_INDEX] = clockTickCount;
     return true;
+}
+
+void TimingDiagram::cycle() {
+	clockTickCount++;
 }

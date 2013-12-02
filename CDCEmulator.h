@@ -5,17 +5,16 @@
 #include "Scoreboard7600.h"
 #include "InstructionPipeline.h"
 #include "InstructionParser.h"
+#include "TimingDiagram.h"
 
 class CDCEmulator {
 public:
 	CDCEmulator();
 	~CDCEmulator();
 	virtual int run();
-    static int clockTickCount;
+	TimingDiagram *timingDiagram;
 
 private:
-	//Vector<Instruction_t> instructionStack; //Not actually instructions, need to be 60-bit words
-	//TableBuilder
 
 protected:
 	int fetchDelay;

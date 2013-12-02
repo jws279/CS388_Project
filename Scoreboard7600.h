@@ -3,6 +3,7 @@
 
 #include "Instruction.h"
 #include "FunctionalUnit.h"
+#include "TimingDiagram.h"
 #include <iostream>
 
 using namespace std;
@@ -32,11 +33,13 @@ private:
     bool writeAfterReadConflict(Instruction inst);
 
 public:
-    Scoreboard7600();
+    Scoreboard7600(TimingDiagram *timingDiagram);
 	~Scoreboard7600();
     bool receiveNextInstruction(Instruction instruction);
     bool stopFound();
 	void cycleTillDone();
+
+	TimingDiagram *timingDiagram;
 };
 
 #endif

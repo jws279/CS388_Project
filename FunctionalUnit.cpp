@@ -21,6 +21,7 @@ FunctionalUnit::FunctionalUnit(int executionTime)
 {
 	instructionIterator = 0;
     resultIsReady = false;
+    dontExecuteInstruction = false;
     this->segmentTime = executionTime;
     this->executionTime = executionTime;
     pipelineLength = static_cast<int>(ceil(executionTime / static_cast<float>(segmentTime)));
@@ -48,15 +49,26 @@ void FunctionalUnit::clockTick(void)
     {
         if(!(i == pipelineLength - 1 && dontExecuteInstruction))  // Make sure we don't push forward instructions which have halted execution for data dependency
         {
+			if(i == pipelineLength - 1) {
+				if(pipeline[i].isValid) {
+					timingDiagram->setStart(pipeline[i].inst.getInstructionNumb());
+				}
+			}
             if(pipeline[i].isValid)
             {
 				pipeline[i].clockTicks++;
                 if(pipeline[i].clockTicks == executionTime)
                 {
                     resultIsReady = true;
+					if(pipeline[i].isValid) {
+						timingDiagram->setResult(pipeline[i].inst.getInstructionNumb());
+					}
                 }
                 else if(i > 0 && ( (pipeline[i].clockTicks % segmentTime) == 0) )
                 {
+					if(i == pipelineLength - 1 && pipeline[i].isValid) {
+						timingDiagram->setUnit(pipeline[i].inst.getInstructionNumb());
+					}
                     pipeline[i - 1] = pipeline[i];
                     pipeline[i].isValid = false;
                 }
@@ -87,6 +99,8 @@ void FunctionalUnit::pushPipeline(Instruction i)
     pipeline[pipelineLength - 1].isValid = true;
     pipeline[pipelineLength - 1].clockTicks = 0;
     pipeline[pipelineLength - 1].inst = i;
+	
+	timingDiagram->setIssue(i.getInstructionNumb());
 }
 
 void FunctionalUnit::print()

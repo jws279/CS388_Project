@@ -1,7 +1,8 @@
 #include "CDCEmulator.h"
 
 CDCEmulator::CDCEmulator() : fetchDelay(0) {
-    scoreboard = new Scoreboard7600();
+	timingDiagram = new TimingDiagram();
+    scoreboard = new Scoreboard7600(timingDiagram);
     instrPipe = new InstructionPipeline(scoreboard);
 }
 
@@ -16,4 +17,4 @@ int CDCEmulator::run() {
 }
 
 
-int CDCEmulator::clockTickCount = 0;
+//int CDCEmulator::clockTickCount = 0;

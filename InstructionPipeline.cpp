@@ -6,6 +6,11 @@ InstructionPipeline::InstructionPipeline(Scoreboard7600 *scoreboard) {
 	reg_U2.setNoop();
 	reg_U1.setNoop();
 	reg_U0.setNoop();
+
+	reg_U2.setInstructionNumb(0);
+	reg_U1.setInstructionNumb(0);
+	reg_U0.setInstructionNumb(0);
+	
 }
 
 InstructionPipeline::~InstructionPipeline() {

@@ -2,6 +2,7 @@
 #define FUNCTIONALUNIT_H
 
 #include "Instruction.h"
+#include "TimingDiagram.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -75,6 +76,8 @@ public:
     //Returns true if an instruction has been issued to the functional unit
     //but is not being executed.
     bool getDontExecuteInstruction();
+
+	TimingDiagram *timingDiagram;
 };
 
 

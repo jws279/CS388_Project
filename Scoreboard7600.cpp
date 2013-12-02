@@ -2,7 +2,7 @@
 #include "Scoreboard7600.h"
 #include "stdio.h"
 
-Scoreboard7600::Scoreboard7600()
+Scoreboard7600::Scoreboard7600(TimingDiagram *timingDiagram)
 {
     floatingAdder = new FunctionalUnit(1, 4);
     multiplier = new FunctionalUnit(2, 5);
@@ -24,6 +24,17 @@ Scoreboard7600::Scoreboard7600()
 	functionalUnits[6] = shifter;
 	functionalUnits[7] = popCounter;
 	functionalUnits[8] = normalizer;
+
+	functionalUnits[0]->timingDiagram = timingDiagram;
+	functionalUnits[1]->timingDiagram = timingDiagram;
+	functionalUnits[2]->timingDiagram = timingDiagram;
+	functionalUnits[3]->timingDiagram = timingDiagram;
+	functionalUnits[4]->timingDiagram = timingDiagram;
+	functionalUnits[5]->timingDiagram = timingDiagram;
+	functionalUnits[6]->timingDiagram = timingDiagram;
+	functionalUnits[7]->timingDiagram = timingDiagram;
+	functionalUnits[8]->timingDiagram = timingDiagram;
+
 
     stop_found = false;
 }

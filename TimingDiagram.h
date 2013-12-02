@@ -7,7 +7,7 @@
 #include <fstream>
 #include <string>
 #include <stdio.h>
-#include "CDCEmulator.h"
+//#include "CDCEmulator.h"
 
 #define TABLE_WIDTH 6
 
@@ -27,7 +27,7 @@ private:
     vector<int*> table;
 
 public:
-    // TimingDiagram();
+    TimingDiagram();
     ~TimingDiagram();
     bool tableToCsv(string fileName);
     int addRow();
@@ -37,6 +37,9 @@ public:
     bool setUnit(int instNumb);
     bool setFetch(int instNumb);
     bool setStore(int instNumb);
+	void cycle();
+    
+	int clockTickCount;
 };
 
 
