@@ -20,15 +20,19 @@ TimingDiagram::~TimingDiagram()
 bool TimingDiagram::tableToCsv(string fileName)
 {
     string tableString;
+    char appendCStr[100];
     for(unsigned int i = 0; i < table.size(); i++)
     {
-        if(i > 0)
-            tableString += ",";
         for(int j = 0; j < TABLE_WIDTH; j++)
         {
+            if(j > 0)
+                tableString += ",";
             if(table[i][j] != -1)
             {
-                tableString += (char)(table[i][j]) + '0';
+                sprintf(appendCStr, "%i", table[i][j]);
+                string append = appendCStr;
+                tableString += append;
+                // tableString += (char)(table[i][j]) + '0';
             }
         }
         tableString += "\n";
