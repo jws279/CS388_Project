@@ -68,6 +68,8 @@ public:
     //Gets instruction at index i where 0 is the oldest instruction in the pipe
     Instruction getInstruction(int i);
 
+	pipelineItem getPipelineItem(int i);
+
     int getPipelineLength();
 
     //Returns true if an instruction has been issued to the functional unit

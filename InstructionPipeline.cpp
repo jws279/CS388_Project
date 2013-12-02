@@ -13,7 +13,7 @@ InstructionPipeline::~InstructionPipeline() {
 }
 
 bool InstructionPipeline::cycle(Instruction instruction) {
-	cout<<reg_U2.getFm()<<" "<<reg_U2.getI()<<" "<<reg_U2.getJ()<<" "<<reg_U2.getK()<<endl;
+	//cout<<reg_U2.getFm()<<" "<<reg_U2.getI()<<" "<<reg_U2.getJ()<<" "<<reg_U2.getK()<<endl;
 /*	if(!reg_U2.isValid()) {
 		reg_U2 = reg_U1;
 		reg_U1 = reg_U0;

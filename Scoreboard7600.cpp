@@ -54,6 +54,7 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
         case stop_INSTR:
             stop_found = true;
             haltPipeline = true;
+			cout<<inst.getFm()<<" "<<inst.getI()<<" "<<inst.getJ()<<" "<<inst.getK()<<endl;
 			break;
         case noop_INSTR:
 			haltPipeline = false;
@@ -102,14 +103,15 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
 
     if(inst.getFm() != invalid_INSTR)
     {
-        haltPipeline |= functionalUnitConflict(fu);
         clockTick();
+        haltPipeline |= functionalUnitConflict(fu);
         if(!haltPipeline && inst.getFm() != noop_INSTR)
         {
+			cout<<inst.getFm()<<" "<<inst.getI()<<" "<<inst.getJ()<<" "<<inst.getK()<<endl;
             fu->pushPipeline(inst);
         }
     }
-    return haltPipeline;
+    return !haltPipeline;
 }
 
 void Scoreboard7600::clockTick()
@@ -209,7 +211,12 @@ void Scoreboard7600::cycleTillDone()
 		for(int i = 0; i < num_FU; i++) {
 			FU_busy = false;
 			for(int j = 0; j < functionalUnits[i]->getPipelineLength(); j++) {
-				FU_busy |= functionalUnits[i]->getInstruction(j).isValid();
+				if(j != 0) {
+					FU_busy |= functionalUnits[i]->getPipelineItem(j).isValid;
+				}
+				else {
+					FU_busy |= (functionalUnits[i]->getPipelineItem(j).isValid && functionalUnits[i]->resultReady());
+				}
 			}
 			done &= !FU_busy;
 		}

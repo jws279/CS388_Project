@@ -6,9 +6,9 @@ FunctionalUnit::FunctionalUnit(int segment_time, int executionTime)
 	instructionIterator = 0;
     resultIsReady = false;
     dontExecuteInstruction = false;
-    segmentTime = segment_time;
-    executionTime = executionTime;
-    pipelineLength = static_cast<int>(ceil(segmentTime / static_cast<float>(executionTime)));
+    this->segmentTime = segment_time;
+    this->executionTime = executionTime;
+    pipelineLength = static_cast<int>(ceil(executionTime / static_cast<float>(segmentTime)));
     pipeline = new pipelineItem[pipelineLength];
     //Clear the pipeline
     for(int i=0; i < pipelineLength; i++)
@@ -21,9 +21,9 @@ FunctionalUnit::FunctionalUnit(int executionTime)
 {
 	instructionIterator = 0;
     resultIsReady = false;
-    segmentTime = executionTime;
-    executionTime = executionTime;
-    pipelineLength = static_cast<int>(ceil(segmentTime / static_cast<float>(executionTime)));
+    this->segmentTime = executionTime;
+    this->executionTime = executionTime;
+    pipelineLength = static_cast<int>(ceil(executionTime / static_cast<float>(segmentTime)));
     pipeline = new pipelineItem[pipelineLength];
     //Clear the pipeline
     for(int i=0; i < pipelineLength; i++)
@@ -34,11 +34,11 @@ FunctionalUnit::FunctionalUnit(int executionTime)
 
 FunctionalUnit::~FunctionalUnit(void)
 {
-    for(int i=0; i < pipelineLength; i++)
-    {
-        delete &pipeline[i];
-    }
-    //delete pipeline;
+    //for(int i=0; i < pipelineLength; i++)
+    //{
+    //    delete &pipeline[i];
+    //}
+    delete pipeline;
 }
 
 
@@ -50,11 +50,12 @@ void FunctionalUnit::clockTick(void)
         {
             if(pipeline[i].isValid)
             {
+				pipeline[i].clockTicks++;
                 if(pipeline[i].clockTicks == executionTime)
                 {
                     resultIsReady = true;
                 }
-                else if(pipeline[i].clockTicks == segmentTime)
+                else if(i > 0 && ( (pipeline[i].clockTicks % segmentTime) == 0) )
                 {
                     pipeline[i - 1] = pipeline[i];
                     pipeline[i].isValid = false;
@@ -103,6 +104,15 @@ bool FunctionalUnit::functionalUnitConflict(void)
 {
     //Returns true if an instruction is in the back of the pipe
     return pipeline[pipelineLength - 1].isValid;
+}
+
+pipelineItem FunctionalUnit::getPipelineItem(int i) {
+	if(i < 0)
+    {
+        //Allow for negative indexes
+        i = getPipelineLength() + i;
+    }
+    return pipeline[i];
 }
 
 Instruction FunctionalUnit::getInstruction(int i)

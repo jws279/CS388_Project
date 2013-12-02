@@ -3,7 +3,9 @@
 
 #include "Instruction.h"
 #include "FunctionalUnit.h"
+#include <iostream>
 
+using namespace std;
 
 class Scoreboard7600 {
 private:
