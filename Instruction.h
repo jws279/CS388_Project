@@ -28,6 +28,7 @@ private:
     int i;
     int j;
     int k;
+    int instructionNumb;  // This is the index of the instruction in the code
     bool validInstruction;
     bool longInstruction;
 
@@ -43,6 +44,8 @@ public:
     bool isValid(void);
     bool isLong();
 	void setNoop();
+    void setInstructionNumb(int numb);
+    int getInstructionNumb();
 };
 
 bool opCodeIsLong(OpCodeEnum op);

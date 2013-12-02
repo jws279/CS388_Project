@@ -56,3 +56,13 @@ void Instruction::setNoop() {
 	fm = noop_INSTR;
 	validInstruction = true;
 }
+
+void setInstructionNumb(int numb)
+{
+    instructionNumb = numb;
+}
+
+int getInstructionNumb()
+{
+    return instructionNumb;
+}
