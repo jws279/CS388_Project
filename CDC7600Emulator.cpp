@@ -13,8 +13,9 @@ int CDC7600Emulator::run() {
 
 	int i = 0;
 	while(!scoreboard->stopFound()) {
-		instrPipe->cycle(instruction[i]);
-		i++;
+		if(instrPipe->cycle(instruction[i])) {
+			i++;
+		}
 	}
 
 	scoreboard->cycleTillDone();
