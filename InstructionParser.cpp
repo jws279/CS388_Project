@@ -120,7 +120,9 @@ vector<Instruction> parseInstructionFile(string fileName)
                                 break;
                         }
                         break;
-                    case 6:
+                    case 5:  // Increment
+                    case 6:  // Increment
+                    case 7:  // Increment
                         op = increment_INSTR;
                         switch(buf[offset + 1])
                         {
@@ -132,8 +134,8 @@ vector<Instruction> parseInstructionFile(string fileName)
                         }
                         break;
 
-                    default:  // Increment
-                        op = increment_INSTR;
+                    default:
+                        printf("Instruction not found!\n\r");
                         break;
                 }
 
@@ -142,15 +144,20 @@ vector<Instruction> parseInstructionFile(string fileName)
                 if(longInstruction)
                 {
                     k = (buf[offset + 4] << 15) | (buf[offset + 5] << 12) | (buf[offset + 6] << 9) |
-                        (buf[offset + 7] << 6) | (buf[offset + 7] << 3) | buf[offset + 3];
+                        (buf[offset + 7] << 6) | (buf[offset + 8] << 3) | buf[offset + 9];
                     offset += 10;  // offset 10 characters (30 bits)
+                    printf("offset += 10\n\r");
                 }
                 else
                 {
                     k = buf[offset + 4];
                     offset += 5;  // offset 5 characters (15 bits)
+                    printf("offset += 5\n\r");
                 }
-
+                printf("op: %i\n\r", op);
+                printf("i: %i\n\r", i);
+                printf("j: %i\n\r", j);
+                printf("k: %i\n\r", k);
                 Instruction inst(op, i, j, k, longInstruction);
                 v.push_back(inst);
 
