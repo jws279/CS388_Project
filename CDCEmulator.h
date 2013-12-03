@@ -2,6 +2,7 @@
 #define CDCEMULATOR_H
 
 #include <vector>
+#include <string>
 #include "Scoreboard7600.h"
 #include "InstructionPipeline.h"
 #include "InstructionParser.h"
@@ -11,14 +12,14 @@ class CDCEmulator {
 public:
 	CDCEmulator();
 	~CDCEmulator();
-	virtual int run();
+	virtual int run(string outfile);
+
 	TimingDiagram *timingDiagram;
 
 private:
 
 protected:
 	int fetchDelay;
-	Scoreboard7600 *scoreboard;
 	InstructionPipeline *instrPipe;
 
 };

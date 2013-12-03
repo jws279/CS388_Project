@@ -9,10 +9,11 @@ using namespace std;
 
 class InstructionPipeline {
 public:
-	InstructionPipeline(Scoreboard7600 *scoreboard);
+	InstructionPipeline(/*Scoreboard7600 *scoreboard*/);
 	~InstructionPipeline();
 
 	bool cycle(Instruction instruction);
+	void setScoreboard(Scoreboard7600 *scoreboard);
 
 private:
 	Instruction reg_U0;

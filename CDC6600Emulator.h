@@ -7,9 +7,10 @@ class CDC6600Emulator : public CDCEmulator {
 public:
 	CDC6600Emulator();
 	~CDC6600Emulator();
-	virtual int run();
+	virtual int run(string outname);
 
 private:
+	Scoreboard7600 *scoreboard;
 
 
 };

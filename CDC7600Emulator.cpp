@@ -2,13 +2,15 @@
 
 CDC7600Emulator::CDC7600Emulator() {
 	fetchDelay = 4;
+    scoreboard = new Scoreboard7600(timingDiagram);
+	instrPipe->setScoreboard(scoreboard);
 }
 
 CDC7600Emulator::~CDC7600Emulator() {
-	
+	delete scoreboard;
 }
 
-int CDC7600Emulator::run() {
+int CDC7600Emulator::run(string outname) {
 	vector<Instruction> instruction = parseInstructionFile(string("TestData1.txt"));
 
 	int i = 0;

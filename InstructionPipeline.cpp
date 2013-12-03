@@ -1,8 +1,8 @@
 #include "InstructionPipeline.h"
 
-InstructionPipeline::InstructionPipeline(Scoreboard7600 *scoreboard) {
+InstructionPipeline::InstructionPipeline(/*Scoreboard7600 *scoreboard*/) {
 
-	scoreboard_ptr = scoreboard;
+	//scoreboard_ptr = scoreboard;
 	reg_U2.setNoop();
 	reg_U1.setNoop();
 	reg_U0.setNoop();
@@ -33,4 +33,8 @@ bool InstructionPipeline::cycle(Instruction instruction) {
 		return false;
 	}
 	return false;
+}
+
+void InstructionPipeline::setScoreboard(Scoreboard7600 *scoreboard) {
+	scoreboard_ptr = scoreboard;
 }

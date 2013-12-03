@@ -3,13 +3,13 @@
 
 int main() {
 	// Run the CDC6600 Emulator
-	CDCEmulator *emu = new CDC6600Emulator();
-	emu->run();
-	delete emu;
+	/*CDCEmulator *emu = new CDC6600Emulator();
+	emu->run("TestData1.txt");
+	delete emu;*/
 
 	// Run the CDC7600 Emulator
-	emu = new CDC7600Emulator();
-	emu->run();
+	CDCEmulator *emu = new CDC7600Emulator();
+	emu->run("TestData1.txt");
 	delete emu;
 
 	char a;
