@@ -189,11 +189,11 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     }
     //Check each instruction in each functional unit to make sure the instruction
     //is not writing to where instruction inst is reading from.
-    for(int i=0; i < sizeof(functionalUnits) / sizeof(functionalUnits[0]); i++)
+    for(int i=0; i < num_FU/*sizeof(functionalUnits) / sizeof(functionalUnits[0])*/; i++)
     {
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
-            if(inst.getInstructionNumb() != functionalUnits[i]->getInstruction(j).getInstructionNumb())
+			if(functionalUnits[i]->getInstruction(j).isValid() && inst.getInstructionNumb() != functionalUnits[i]->getInstruction(j).getInstructionNumb())
             {
                 if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0]
                     && functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
@@ -203,7 +203,8 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
                 {
                     conflictExists = true;
                     printf("Read After Write! Instruction %i and %i\n\r", inst.getInstructionNumb(), functionalUnits[i]->getInstruction(j).getInstructionNumb());
-                }
+					break;
+				}
             }
         }
     }
@@ -256,12 +257,4 @@ void Scoreboard7600::cycleTillDone()
 	};
 
     return;
-}
-
-void Scoreboard7600::flushPipelines()
-{
-    for(int i=0; i < sizeof(functionalUnits) / sizeof(functionalUnits[0]); i++)
-    {
-        functionalUnits[i]->getPipelineLength();
-    }
 }

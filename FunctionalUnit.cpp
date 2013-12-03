@@ -154,6 +154,7 @@ void FunctionalUnit::setStartTime(Instruction instruction)
 	timingDiagram->setStart(instruction.getInstructionNumb());
 }
 
+
 void FunctionalUnit::flushPipeline()
 {
     //Clear the pipeline

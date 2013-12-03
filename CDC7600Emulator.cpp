@@ -10,8 +10,8 @@ CDC7600Emulator::~CDC7600Emulator() {
 	delete scoreboard;
 }
 
-int CDC7600Emulator::run(string outname) {
-	vector<Instruction> instruction = parseInstructionFile(string("TestData1.txt"));
+int CDC7600Emulator::run(string inname, string outname) {
+	vector<Instruction> instruction = parseInstructionFile(inname);
 
 	int i = 0;
 	int nextRow = timingDiagram->addRow();
@@ -26,7 +26,7 @@ int CDC7600Emulator::run(string outname) {
 		if(packetCount >= 4) {
 			packetCount = 0;
 			
-			for(int k = cycleCount - 8; k < previousLoadCycle; k++) {
+			for(int k = cycleCount - 6; k < previousLoadCycle; k++) {
 				instrPipe->cycle(noop);
 				cycleCount++;
 				timingDiagram->cycle();
@@ -56,7 +56,7 @@ int CDC7600Emulator::run(string outname) {
 
 	scoreboard->cycleTillDone();
 
-	timingDiagram->tableToCsv("Output.csv");
+	timingDiagram->tableToCsv(outname);
 
 	return 0;
 }

@@ -12,7 +12,7 @@ CDCEmulator::~CDCEmulator() {
 	delete timingDiagram;
 }
 
-int CDCEmulator::run(string outname) {
+int CDCEmulator::run(string inname, string outname) {
 	/*vector<Instruction> instruction = parseInstructionFile(string("TestData1.txt"));
 
 	int i = 0;

@@ -10,8 +10,8 @@ CDC6600Emulator::~CDC6600Emulator() {
 	delete scoreboard;
 }
 
-int CDC6600Emulator::run(string outname) {
-	vector<Instruction> instruction = parseInstructionFile(string("TestData1.txt"));
+int CDC6600Emulator::run(string inname, string outname) {
+	vector<Instruction> instruction = parseInstructionFile(inname);
 
 	int i = 0;
 	int nextRow = timingDiagram->addRow();
@@ -56,7 +56,7 @@ int CDC6600Emulator::run(string outname) {
 
 	scoreboard->cycleTillDone();
 
-	timingDiagram->tableToCsv("Output.csv");
+	timingDiagram->tableToCsv(outname);
 
 	return 0;
 }

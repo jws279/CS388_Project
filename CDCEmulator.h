@@ -12,7 +12,7 @@ class CDCEmulator {
 public:
 	CDCEmulator();
 	~CDCEmulator();
-	virtual int run(string outfile);
+	virtual int run(string infile, string outfile);
 
 	TimingDiagram *timingDiagram;
 

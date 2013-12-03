@@ -142,6 +142,9 @@ vector<Instruction> parseInstructionFile(string fileName)
                             case 0:
                             case 1:
                             case 2:
+                                iReg = xRegister;
+                                jReg = xRegister;
+                                kReg = xRegister;
                                 op = floatingMultiply_INSTR;
                                 break;
                             case 3:
