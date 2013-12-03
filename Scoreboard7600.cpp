@@ -198,7 +198,8 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
                 if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0]
                     && functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
                     || (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1]
-                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg()))
+                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg())
+						&& (inst.getKReg() != noRegister || inst.getJReg() != noRegister))
                 {
                     conflictExists = true;
                     printf("Read After Write! Instruction %i and %i\n\r", inst.getInstructionNumb(), functionalUnits[i]->getInstruction(j).getInstructionNumb());

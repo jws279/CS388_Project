@@ -23,21 +23,29 @@ int CDC7600Emulator::run() {
 	while(!scoreboard->stopFound()) {
 		if(packetCount >= 4) {
 			packetCount = 0;
-			previousLoadCycle = cycleCount;
 			
 			for(int k = cycleCount - 8; k < previousLoadCycle; k++) {
 				instrPipe->cycle(noop);
 				cycleCount++;
 				timingDiagram->cycle();
 			}
+
+			previousLoadCycle = cycleCount;
 		}
 
 		instruction[i].setInstructionNumb(nextRow);
 
 		if(instrPipe->cycle(instruction[i])) {
 			nextRow = timingDiagram->addRow();
-			i++;
 			packetCount += (instruction[i].isLong() ? 2 : 1);
+
+			if(instruction[i].isLong()) {
+				cycleCount++;
+				timingDiagram->cycle();
+				instrPipe->cycle(noop);
+			}
+
+			i++;
 		}
 
 		cycleCount++;
