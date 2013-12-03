@@ -109,10 +109,8 @@ bool Scoreboard6600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
             fu = shifter;
             break;
         case populationCount_INSTR:
-            fu = popCounter;
             break;
         case normalize_INSTR:
-            fu = normalizer;
             break;
         default:
             printf("Error in scoreboard!\n\r");
@@ -264,4 +262,12 @@ void Scoreboard6600::cycleTillDone()
     };
 
     return;
+}
+
+void Scoreboard6600::flushPipelines()
+{
+    for(int i=0; i < sizeof(functionalUnits) / sizeof(functionalUnits[0]); i++)
+    {
+        functionalUnits[i]->getPipelineLength();
+    }
 }

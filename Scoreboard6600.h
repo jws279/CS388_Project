@@ -23,7 +23,7 @@ private:
     FunctionalUnit *brancher;
 
     FunctionalUnit** functionalUnits;
-    static const int num_FU = 9;
+    static const int num_FU = 10;
 
     bool stop_found;
 
@@ -39,6 +39,7 @@ public:
     bool receiveNextInstruction(Instruction instruction);
     bool stopFound();
     void cycleTillDone();
+    void flushPipelines();
 
     TimingDiagram *timingDiagram;
 };

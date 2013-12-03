@@ -39,6 +39,7 @@ private:
     pipelineItem *pipeline;
     functionalUnitEnum unitType;
     int instructionIterator;
+    void flushPipeline();
 
 
 public:

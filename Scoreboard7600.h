@@ -38,6 +38,7 @@ public:
     bool receiveNextInstruction(Instruction instruction);
     bool stopFound();
 	void cycleTillDone();
+    void flushPipelines();
 
 	TimingDiagram *timingDiagram;
 };

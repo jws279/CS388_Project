@@ -257,3 +257,11 @@ void Scoreboard7600::cycleTillDone()
 
     return;
 }
+
+void Scoreboard7600::flushPipelines()
+{
+    for(int i=0; i < sizeof(functionalUnits) / sizeof(functionalUnits[0]); i++)
+    {
+        functionalUnits[i]->getPipelineLength();
+    }
+}

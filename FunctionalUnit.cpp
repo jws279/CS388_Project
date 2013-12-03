@@ -99,7 +99,7 @@ void FunctionalUnit::pushPipeline(Instruction i)
     pipeline[pipelineLength - 1].isValid = true;
     pipeline[pipelineLength - 1].clockTicks = 0;
     pipeline[pipelineLength - 1].inst = i;
-	
+
 	timingDiagram->setIssue(i.getInstructionNumb());
 }
 
@@ -149,6 +149,16 @@ bool FunctionalUnit::getDontExecuteInstruction()
     return dontExecuteInstruction;
 }
 
-void FunctionalUnit::setStartTime(Instruction instruction) {
+void FunctionalUnit::setStartTime(Instruction instruction)
+{
 	timingDiagram->setStart(instruction.getInstructionNumb());
+}
+
+void FunctionalUnit::flushPipeline()
+{
+    //Clear the pipeline
+    for(int i=0; i < pipelineLength; i++)
+    {
+        pipeline[i].isValid = false;
+    }
 }
