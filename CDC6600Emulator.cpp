@@ -2,12 +2,14 @@
 
 CDC6600Emulator::CDC6600Emulator()  {
 	fetchDelay = 5;
+	timingDiagram = new TimingDiagram(fetchDelay);
     scoreboard = new Scoreboard6600(timingDiagram);
 	instrPipe->setScoreboard(scoreboard);
 }
 
 CDC6600Emulator::~CDC6600Emulator() {
 	delete scoreboard;
+	delete timingDiagram;
 }
 
 int CDC6600Emulator::run(string inname, string outname) {
@@ -23,6 +25,35 @@ int CDC6600Emulator::run(string inname, string outname) {
 	noop.setNoop();
 
 	while(!scoreboard->stopFound()) {
+	
+		if(scoreboard->getbranchFound()) {
+			int targetWord = scoreboard->getBranchTo();
+			int currentWord = 0;
+			
+			packetCount = 0;
+			previousLoadCycle = 1;
+			cycleCount = previousLoadCycle;
+
+			i = 0;
+			while(currentWord < targetWord) {
+				packetCount += (instruction[i].isLong() ? 2 : 1);
+
+				if(packetCount >= 4) {
+					packetCount = 0;
+					currentWord++;
+				}
+
+				i++;
+			}
+
+			instrPipe->clearPipeline();
+			
+			for(int k = 0; k < 5; k++) {
+				instrPipe->cycle(noop);
+				timingDiagram->cycle();
+			}
+		}
+
 		if(packetCount >= 4) {
 			packetCount = 0;
 			

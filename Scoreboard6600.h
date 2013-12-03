@@ -27,6 +27,8 @@ private:
     static const int num_FU = 10;
 
     bool stop_found;
+	bool branchFound;
+	int branchTo;
 
     void clockTick();
     bool functionalUnitConflict(FunctionalUnit *fu);
@@ -39,6 +41,8 @@ public:
     ~Scoreboard6600();
     virtual bool receiveNextInstruction(Instruction instruction);
     virtual bool stopFound();
+	virtual bool getbranchFound();
+	virtual int getBranchTo();
     virtual void cycleTillDone();
     virtual void flushPipelines();
 

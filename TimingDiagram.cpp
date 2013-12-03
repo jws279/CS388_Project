@@ -1,9 +1,10 @@
 #include "TimingDiagram.h"
 
 //Constructs blank timing diagram
-TimingDiagram::TimingDiagram()
+TimingDiagram::TimingDiagram(int memAccessDelay)
 {
 	clockTickCount = -2; // To adjust timing table to start at 1
+	this->memAccessDelay = memAccessDelay;
 }
 
 TimingDiagram::~TimingDiagram()
@@ -105,7 +106,7 @@ bool TimingDiagram::setFetch(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][FETCH_INDEX] = clockTickCount;
+	table[instNumb][FETCH_INDEX] = clockTickCount + memAccessDelay;
     return true;
 }
 
@@ -115,7 +116,7 @@ bool TimingDiagram::setStore(int instNumb)
 {
     if(table.size() < instNumb)
         return false;
-    table[instNumb][STORE_INDEX] = clockTickCount;
+	table[instNumb][STORE_INDEX] = clockTickCount + memAccessDelay;
     return true;
 }
 

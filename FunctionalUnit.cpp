@@ -67,6 +67,14 @@ void FunctionalUnit::clockTick(void)
                     resultIsReady = true;
 					if(pipeline[i].isValid) {
 						timingDiagram->setResult(pipeline[i].inst.getInstructionNumb());
+						if(pipeline[i].inst.getFm() == increment_INSTR && pipeline[i].inst.getIReg() == aRegister) {
+							if(pipeline[i].inst.getI() < 6) {
+								timingDiagram->setFetch(pipeline[i].inst.getInstructionNumb());
+							}
+							else {
+								timingDiagram->setStore(pipeline[i].inst.getInstructionNumb());
+							}
+						}
 						pipeline[i].isValid = false;
 					}
                 }

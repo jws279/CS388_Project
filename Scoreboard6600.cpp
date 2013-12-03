@@ -41,6 +41,9 @@ Scoreboard6600::Scoreboard6600(TimingDiagram *timingDiagram)
 	this->timingDiagram = timingDiagram;
 
     stop_found = false;
+	branchFound = false;
+	branchTo = 0;
+	numBranches = 5;
 }
 
 Scoreboard6600::~Scoreboard6600() {
@@ -76,13 +79,37 @@ bool Scoreboard6600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
             haltPipeline = false;
             break;
         case branchIncrement_INSTR:
-
+			if(numBranches > 0) {
+				branchFound = true;
+				branchTo = inst.getK();
+				fu = brancher;
+				numBranches--;
+			}
+			else {
+				inst.setNoop();
+			}
             break;
         case branchLongAdd_INSTR:
-
+			if(numBranches > 0) {
+				branchFound = true;
+				branchTo = inst.getK();
+				fu = brancher;
+				numBranches--;
+			}
+			else {
+				inst.setNoop();
+			}
             break;
         case branchUnconditional_INSTR:
-
+			if(numBranches > 0) {
+				branchFound = true;
+				branchTo = inst.getK();
+				fu = brancher;
+				numBranches--;
+			}
+			else {
+				inst.setNoop();
+			}
             break;
         case floatingAdd_INSTR:
             fu = floatingAdder;
@@ -273,4 +300,13 @@ void Scoreboard6600::flushPipelines()
     {
         functionalUnits[i]->getPipelineLength();
     }
+}
+
+bool Scoreboard6600::getbranchFound(){
+	bool ret = branchFound;
+	branchFound = false;
+	return ret;
+}
+int Scoreboard6600::getBranchTo() {
+	return branchTo;
 }

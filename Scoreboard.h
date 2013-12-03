@@ -14,8 +14,11 @@ private:
 public:
     virtual bool receiveNextInstruction(Instruction instruction) = 0;
 	virtual bool stopFound() = 0;
+	virtual bool getbranchFound() = 0;
+	virtual int getBranchTo() = 0;
 	virtual void cycleTillDone() = 0;
     virtual void flushPipelines() = 0;
+	int numBranches;
 
 };
 

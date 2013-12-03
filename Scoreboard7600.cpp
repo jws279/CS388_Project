@@ -37,8 +37,10 @@ Scoreboard7600::Scoreboard7600(TimingDiagram *timingDiagram)
 
 	this->timingDiagram = timingDiagram;
 
-
     stop_found = false;
+	branchFound = false;
+	branchTo = 0;
+	numBranches = 5;
 }
 
 Scoreboard7600::~Scoreboard7600() {
@@ -73,13 +75,37 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
 			haltPipeline = false;
             break;
         case branchIncrement_INSTR:
-
+			if(numBranches > 0) {
+				branchFound = true;
+				branchTo = inst.getK();
+				fu = normalizer;
+				numBranches--;
+			}
+			else {
+				inst.setNoop();
+			}
             break;
         case branchLongAdd_INSTR:
-
+			if(numBranches > 0) {
+				branchFound = true;
+				branchTo = inst.getK();
+				fu = normalizer;
+				numBranches--;
+			}
+			else {
+				inst.setNoop();
+			}
             break;
         case branchUnconditional_INSTR:
-
+			if(numBranches > 0) {
+				branchFound = true;
+				branchTo = inst.getK();
+				fu = normalizer;
+				numBranches--;
+			}
+			else {
+				inst.setNoop();
+			}
             break;
         case floatingAdd_INSTR:
             fu = floatingAdder;
@@ -268,4 +294,13 @@ void Scoreboard7600::flushPipelines()
     {
         functionalUnits[i]->getPipelineLength();
     }
+}
+
+bool Scoreboard7600::getbranchFound(){
+	bool ret = branchFound;
+	branchFound = false;
+	return ret;
+}
+int Scoreboard7600::getBranchTo() {
+	return branchTo;
 }

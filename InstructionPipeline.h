@@ -14,6 +14,7 @@ public:
 
 	bool cycle(Instruction instruction);
 	void setScoreboard(Scoreboard *scoreboard);
+	void clearPipeline();
 
 private:
 	Instruction reg_U0;

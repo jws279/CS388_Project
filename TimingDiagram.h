@@ -24,9 +24,10 @@ class TimingDiagram
 {
 private:
     vector<int*> table;
+	int memAccessDelay;
 
 public:
-    TimingDiagram();
+    TimingDiagram(int memAccessDelay);
     ~TimingDiagram();
     bool tableToCsv(string fileName);
     int addRow();
