@@ -49,11 +49,11 @@ void FunctionalUnit::clockTick(void)
     {
         if(!(i == pipelineLength - 1 && dontExecuteInstruction))  // Make sure we don't push forward instructions which have halted execution for data dependency
         {
-			if(i == pipelineLength - 1) {
-				if(pipeline[i].isValid) {
-					timingDiagram->setStart(pipeline[i].inst.getInstructionNumb());
-				}
-			}
+			//if(i == pipelineLength - 1) {
+				//if(pipeline[i].isValid) {
+				//	timingDiagram->setStart(pipeline[i].inst.getInstructionNumb());
+				//}
+			//}
             if(pipeline[i].isValid)
             {
 				pipeline[i].clockTicks++;
@@ -147,4 +147,8 @@ int FunctionalUnit::getPipelineLength()
 bool FunctionalUnit::getDontExecuteInstruction()
 {
     return dontExecuteInstruction;
+}
+
+void FunctionalUnit::setStartTime(Instruction instruction) {
+	timingDiagram->setStart(instruction.getInstructionNumb());
 }

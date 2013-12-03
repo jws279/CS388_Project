@@ -61,7 +61,7 @@ vector<Instruction> parseInstructionFile(string fileName)
                                 break;
                             case 3:
                                 op = branchLongAdd_INSTR;
-                                jReg = xRegister
+                                jReg = xRegister;
                                 break;
                             default: // 04 - 07
                                 op = branchIncrement_INSTR;
@@ -203,7 +203,7 @@ vector<Instruction> parseInstructionFile(string fileName)
                 printf("i: %i\n\r", i);
                 printf("j: %i\n\r", j);
                 printf("k: %i\n\r", k);
-                Instruction inst(op, i, j, k, longInstruction);
+                Instruction inst(op, i, j, k, iReg, jReg, kReg, longInstruction);
                 v.push_back(inst);
             }
         }

@@ -77,6 +77,8 @@ public:
     //but is not being executed.
     bool getDontExecuteInstruction();
 
+	void setStartTime(Instruction instruction);
+
 	TimingDiagram *timingDiagram;
 };
 

@@ -120,6 +120,14 @@ bool Scoreboard7600::receiveNextInstruction(Instruction inst)//SOME CASES NEED T
         {
 			cout<<inst.getFm()<<" "<<inst.getI()<<" "<<inst.getJ()<<" "<<inst.getK()<<endl;
             fu->pushPipeline(inst);
+
+			if(!readAfterWriteConflict(inst)) {
+				fu->setStartTime(inst);
+				fu->setExecuteInstruction(true);
+			}
+			else {
+				fu->setExecuteInstruction(false);
+			}
         }
     }
     return !haltPipeline;
@@ -129,6 +137,11 @@ void Scoreboard7600::clockTick()
 {
     for(int i = 0; i < num_FU; i++)
     {
+		Instruction inst = functionalUnits[i]->getInstruction(functionalUnits[i]->getPipelineLength()-1);
+		if(inst.isValid() && !readAfterWriteConflict(inst)) {
+			functionalUnits[i]->setStartTime(inst);
+			functionalUnits[i]->setExecuteInstruction(true);
+		}
         functionalUnits[i]->clockTick();
     }
 }
@@ -167,11 +180,11 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     readRegisters[0] = inst.getJ();
     if(inst.isLong())
     {
-        readRegisters[1] = inst.getK();
+        readRegisters[1] = -1;
     }
     else
     {
-        readRegisters[1] = -1;
+        readRegisters[1] = inst.getK();
     }
     //Check each instruction in each functional unit to make sure the instruction
     //is not writing to where instruction inst is reading from.
@@ -179,8 +192,10 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     {
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
-            if(functionalUnits[i]->getInstruction(j).getI() == readRegisters[0] ||
-                functionalUnits[i]->getInstruction(j).getI() == readRegisters[1])
+            if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0] 
+				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getIReg())
+				|| (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1] 
+				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getIReg()))
             {
                 conflictExists = true;
             }

@@ -7,7 +7,6 @@
 #include <fstream>
 #include <string>
 #include <stdio.h>
-//#include "CDCEmulator.h"
 
 #define TABLE_WIDTH 6
 

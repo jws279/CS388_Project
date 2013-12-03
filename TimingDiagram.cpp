@@ -3,7 +3,7 @@
 //Constructs blank timing diagram
 TimingDiagram::TimingDiagram()
 {
-	clockTickCount = 0;
+	clockTickCount = -2; // To adjust timing table to start at 1
 }
 
 TimingDiagram::~TimingDiagram()

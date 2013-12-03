@@ -6,6 +6,9 @@ Instruction::Instruction(OpCodeEnum op, int I, int J, int K, registerName iReg, 
     i = I;
     j = J;
     k = K;
+    IReg = iReg;
+    JReg = jReg;
+    KReg = kReg;
     longInstruction = isLong;
     validInstruction = true;
 }
@@ -15,9 +18,9 @@ Instruction::Instruction(void)
     i = -1;
     j = -1;
     k = -1;
-    iReg = noRegister;
-    jReg = noRegister;
-    kReg = noRegister;
+    IReg = noRegister;
+    JReg = noRegister;
+    KReg = noRegister;
     validInstruction = false;
     longInstruction = false;
 }
@@ -67,17 +70,17 @@ int Instruction::getInstructionNumb()
     return instructionNumb;
 }
 
-registerName getIReg()
+registerName Instruction::getIReg()
 {
     return IReg;
 }
 
-registerName getJReg()
+registerName Instruction::getJReg()
 {
     return JReg;
 }
 
-registerName getKReg()
+registerName Instruction::getKReg()
 {
     return KReg;
 }

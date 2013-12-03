@@ -34,16 +34,16 @@ private:
     int i;
     int j;
     int k;
-    registerName iReg;
-    registerName jReg;
-    registerName kReg;
+    registerName IReg;
+    registerName JReg;
+    registerName KReg;
     int instructionNumb;  // This is the index of the instruction in the code
     bool validInstruction;
     bool longInstruction;
 
 public:
     //Creates a valid instruction
-    Instruction(OpCodeEnum op, int i, int j, int k, bool isLong);
+    Instruction(OpCodeEnum op, int i, int j, int k, registerName iReg, registerName jReg, registerName kReg, bool isLong);
     //Creates an invalid instruction
     Instruction(void);
     OpCodeEnum getFm(void);
