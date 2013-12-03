@@ -167,6 +167,7 @@ bool Scoreboard7600::writeAfterWriteConflict(Instruction inst)
             if(functionalUnits[i]->getInstruction(j).getI() == destinationRegister)
             {
                 conflictExists = true;
+                printf("Write After Write!\n\r");
             }
         }
     }
@@ -192,12 +193,16 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     {
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
-            if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0] 
-				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
-				|| (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1] 
-				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg()))
+            if(inst.getInstructionNumb() != functionalUnits[i]->getInstruction(j).getInstructionNumb())
             {
-                conflictExists = true;
+                if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0]
+                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
+                    || (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1]
+                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg()))
+                {
+                    conflictExists = true;
+                    printf("Read After Write! Instruction %i and %i\n\r", inst.getInstructionNumb(), functionalUnits[i]->getInstruction(j).getInstructionNumb());
+                }
             }
         }
     }
@@ -216,6 +221,7 @@ bool Scoreboard7600::writeAfterReadConflict(Instruction inst)
              functionalUnits[i]->getInstruction(-1).getK() == inst.getI()))
         {
             conflictExists = true;
+            printf("Write After Read!");
         }
     }
 
