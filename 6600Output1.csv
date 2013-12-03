@@ -1,9 +1,9 @@
 Word #,Instruction,Semantics,,Issue,Start,Result,Unit,Fetch,Store
 ,,,,,,,,,
 N1,A1 = A1 + K1,Fetch X,,1,1,4,4,9,
-N2,A2 = A2 + K2,Fetch A,,3,3,6,6,11,
-N3,X0 = X1 * X1,Form X^2,,9,9,19,19,,
-N4,X6 = X0 * X2,Form AX^2,,10,19,29,29,,
-N5,A3 = A3 + K3,Fetch B,,11,11,14,14,19,
-N6,X7 = X6 + X3,Form Y,,17,29,33,33,,
-N7,A7 = A7 + K7,Store Y,,18,33,36,36,,41
+,A2 = A2 + K2,Fetch A,,3,3,6,6,11,
+N2,X0 = X1 * X1,Form X^2,,9,9,19,19,,
+,X6 = X0 * X2,Form AX^2,,10,19,29,29,,
+,A3 = A3 + K3,Fetch B,,11,11,14,14,19,
+N3,X7 = X6 + X3,Form Y,,17,29,33,33,,
+,A7 = A7 + K7,Store Y,,18,33,36,36,,41
