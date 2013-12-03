@@ -1,6 +1,7 @@
 #include "CDC6600Emulator.h"
 
 CDC6600Emulator::CDC6600Emulator()  {
+	// Initialize
 	fetchDelay = 5;
 	timingDiagram = new TimingDiagram(fetchDelay);
     scoreboard = new Scoreboard6600(timingDiagram);
@@ -8,11 +9,13 @@ CDC6600Emulator::CDC6600Emulator()  {
 }
 
 CDC6600Emulator::~CDC6600Emulator() {
+	// Clean up
 	delete scoreboard;
 	delete timingDiagram;
 }
 
 int CDC6600Emulator::run(string inname, string outname) {
+	// Set up
 	vector<Instruction> instruction = parseInstructionFile(inname);
 
 	int i = 0;
@@ -24,8 +27,9 @@ int CDC6600Emulator::run(string inname, string outname) {
 	Instruction noop;
 	noop.setNoop();
 
+	// Push instructions onto pipeline until program stop found
 	while(!scoreboard->stopFound()) {
-	
+		// If branch to be taken found, clear pipeline and find next instruction
 		if(scoreboard->getbranchFound()) {
 			int targetWord = scoreboard->getBranchTo();
 			int currentWord = 0;
@@ -35,6 +39,7 @@ int CDC6600Emulator::run(string inname, string outname) {
 			cycleCount = previousLoadCycle;
 
 			i = 0;
+			// Find instruction
 			while(currentWord < targetWord) {
 				packetCount += (instruction[i].isLong() ? 2 : 1);
 
@@ -48,12 +53,14 @@ int CDC6600Emulator::run(string inname, string outname) {
 
 			instrPipe->clearPipeline();
 			
+			// Execute over wait time for jump
 			for(int k = 0; k < 5; k++) {
 				instrPipe->cycle(noop);
 				timingDiagram->cycle();
 			}
 		}
 
+		// If finished a word, cycle till next is ready
 		if(packetCount >= 4) {
 			packetCount = 0;
 			
@@ -66,8 +73,10 @@ int CDC6600Emulator::run(string inname, string outname) {
 			previousLoadCycle = cycleCount;
 		}
 
+		// Set instruction number for timingDiagram
 		instruction[i].setInstructionNumb(nextRow);
 
+		// Attempt to push next instruction
 		if(instrPipe->cycle(instruction[i])) {
 			nextRow = timingDiagram->addRow();
 			packetCount += (instruction[i].isLong() ? 2 : 1);
@@ -81,12 +90,15 @@ int CDC6600Emulator::run(string inname, string outname) {
 			i++;
 		}
 
+		// Increment cycle count here and in timingDiagram
 		cycleCount++;
 		timingDiagram->cycle();
 	}
 
+	// Wrap up remaining instructions
 	scoreboard->cycleTillDone();
 
+	// Output file
 	timingDiagram->tableToCsv(outname);
 
 	return 0;

@@ -1,8 +1,6 @@
 #include "InstructionPipeline.h"
 
-InstructionPipeline::InstructionPipeline(/*Scoreboard7600 *scoreboard*/) {
-
-	//scoreboard_ptr = scoreboard;
+InstructionPipeline::InstructionPipeline() {
 	reg_U2.setNoop();
 	reg_U1.setNoop();
 	reg_U0.setNoop();

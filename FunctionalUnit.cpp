@@ -35,10 +35,6 @@ FunctionalUnit::FunctionalUnit(int executionTime)
 
 FunctionalUnit::~FunctionalUnit(void)
 {
-    //for(int i=0; i < pipelineLength; i++)
-    //{
-    //    delete &pipeline[i];
-    //}
     delete pipeline;
 }
 
@@ -52,7 +48,7 @@ void FunctionalUnit::clockTick(void)
             if(pipeline[i].isValid)
             {
 				pipeline[i].clockTicks++;
-				/*else */if(/*i > 0 && */( (pipeline[i].clockTicks % segmentTime) == 0) )
+				if(( (pipeline[i].clockTicks % segmentTime) == 0) )
                 {
 					if(i == pipelineLength - 1 && pipeline[i].isValid) {
 						timingDiagram->setUnit(pipeline[i].inst.getInstructionNumb());

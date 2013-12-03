@@ -8,9 +8,12 @@ class CDC7600Emulator : public CDCEmulator {
 public:
 	CDC7600Emulator();
 	~CDC7600Emulator();
+
+	// Executes program stored in infile, and writes timing table to outfile
 	virtual int run(string infile, string outfile);
 
 private:
+	// Pointer to scoreboard object
 	Scoreboard *scoreboard;
 
 };

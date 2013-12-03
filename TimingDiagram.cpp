@@ -33,7 +33,6 @@ bool TimingDiagram::tableToCsv(string fileName)
                 sprintf(appendCStr, "%i", table[i][j]);
                 string append = appendCStr;
                 tableString += append;
-                // tableString += (char)(table[i][j]) + '0';
             }
         }
         tableString += "\n";

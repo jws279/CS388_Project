@@ -12,8 +12,8 @@ Scoreboard6600::Scoreboard6600(TimingDiagram *timingDiagram)
     incrementer1 = new FunctionalUnit(3, 3);
     incrementer2 = new FunctionalUnit(3, 3);
     booleaner = new FunctionalUnit(3, 3);
-    shifter = new FunctionalUnit(3, 3);  // 3 cycles is a simplification
-    brancher = new FunctionalUnit(8, 8);  // 8 cycles is a simplification
+    shifter = new FunctionalUnit(3, 3);
+    brancher = new FunctionalUnit(8, 8);
 
     functionalUnits = new FunctionalUnit*[num_FU];
     functionalUnits[0] = multiplier1;
@@ -280,12 +280,7 @@ void Scoreboard6600::cycleTillDone()
         for(int i = 0; i < num_FU; i++) {
             FU_busy = false;
             for(int j = 0; j < functionalUnits[i]->getPipelineLength(); j++) {
-                //if(j != 0) {
-                    FU_busy |= functionalUnits[i]->getPipelineItem(j).isValid;
-                /*}
-                else {
-                    FU_busy |= (functionalUnits[i]->getPipelineItem(j).isValid && functionalUnits[i]->resultReady());
-                }*/
+                FU_busy |= functionalUnits[i]->getPipelineItem(j).isValid;
             }
             done &= !FU_busy;
         }
