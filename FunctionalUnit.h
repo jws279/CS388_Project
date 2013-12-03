@@ -80,6 +80,8 @@ public:
 
 	void setStartTime(Instruction instruction);
 
+	void incrementPipelineTicks(int index);
+
 	TimingDiagram *timingDiagram;
 };
 

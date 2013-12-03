@@ -15,9 +15,9 @@ Scoreboard7600::Scoreboard7600(TimingDiagram *timingDiagram)
     normalizer = new FunctionalUnit(1, 3);
 
 	functionalUnits = new FunctionalUnit*[num_FU];
-	functionalUnits[0] = floatingAdder;
-	functionalUnits[1] = multiplier;
-	functionalUnits[2] = divider;
+	functionalUnits[0] = multiplier;
+	functionalUnits[1] = divider;
+	functionalUnits[2] = floatingAdder;
 	functionalUnits[3] = fixedAdder;
 	functionalUnits[4] = incrementer;
 	functionalUnits[5] = booleaner;
@@ -34,6 +34,8 @@ Scoreboard7600::Scoreboard7600(TimingDiagram *timingDiagram)
 	functionalUnits[6]->timingDiagram = timingDiagram;
 	functionalUnits[7]->timingDiagram = timingDiagram;
 	functionalUnits[8]->timingDiagram = timingDiagram;
+
+	this->timingDiagram = timingDiagram;
 
 
     stop_found = false;
@@ -137,12 +139,13 @@ void Scoreboard7600::clockTick()
 {
     for(int i = 0; i < num_FU; i++)
     {
+        functionalUnits[i]->clockTick();
 		Instruction inst = functionalUnits[i]->getInstruction(functionalUnits[i]->getPipelineLength()-1);
 		if(inst.isValid() && functionalUnits[i]->getDontExecuteInstruction() && !readAfterWriteConflict(inst)) {
 			functionalUnits[i]->setStartTime(inst);
 			functionalUnits[i]->setExecuteInstruction(true);
+			//functionalUnits[i]->incrementPipelineTicks(functionalUnits[i]->getPipelineLength()-1);
 		}
-        functionalUnits[i]->clockTick();
     }
 }
 
@@ -189,17 +192,16 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     }
     //Check each instruction in each functional unit to make sure the instruction
     //is not writing to where instruction inst is reading from.
-    for(int i=0; i < num_FU/*sizeof(functionalUnits) / sizeof(functionalUnits[0])*/; i++)
+    for(int i=0; i < num_FU; i++)
     {
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
 			Instruction tempInst = functionalUnits[i]->getInstruction(j);
 			if(functionalUnits[i]->getPipelineItem(j).isValid && tempInst.isValid() && inst.getInstructionNumb() != tempInst.getInstructionNumb())
             {
-                if((tempInst.getI() == readRegisters[0]
-                    && tempInst.getIReg() == inst.getJReg())
-                    || (tempInst.getI() == readRegisters[1]
-                    && tempInst.getIReg() == inst.getKReg())
+                if((tempInst.getI() == readRegisters[0] && tempInst.getIReg() == inst.getJReg())
+                    || (tempInst.getI() == readRegisters[1] && tempInst.getIReg() == inst.getKReg())
+					|| (tempInst.getIReg() == xRegister && inst.getIReg() == aRegister && tempInst.getI() == inst.getI())
 					&& (inst.getKReg() != noRegister || inst.getJReg() != noRegister))
                 {
                     conflictExists = true;
@@ -242,6 +244,7 @@ void Scoreboard7600::cycleTillDone()
 	bool FU_busy = false;
 	while(!done){
 		clockTick();
+		timingDiagram->cycle();
 		done = true;
 		for(int i = 0; i < num_FU; i++) {
 			FU_busy = false;

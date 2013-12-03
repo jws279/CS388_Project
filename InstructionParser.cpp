@@ -168,6 +168,8 @@ vector<Instruction> parseInstructionFile(string fileName)
                         }
                         break;
                     case 5:  // Increment
+						iReg = aRegister;
+                        jReg = aRegister;
 
                     case 6:  // Increment
                     case 7:  // Increment
