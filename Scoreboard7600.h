@@ -4,11 +4,12 @@
 #include "Instruction.h"
 #include "FunctionalUnit.h"
 #include "TimingDiagram.h"
+#include "Scoreboard.h"
 #include <iostream>
 
 using namespace std;
 
-class Scoreboard7600 {
+class Scoreboard7600 : public Scoreboard  {
 private:
 
     FunctionalUnit *floatingAdder;
@@ -35,10 +36,10 @@ private:
 public:
     Scoreboard7600(TimingDiagram *timingDiagram);
 	~Scoreboard7600();
-    bool receiveNextInstruction(Instruction instruction);
-    bool stopFound();
-	void cycleTillDone();
-    void flushPipelines();
+    virtual bool receiveNextInstruction(Instruction instruction);
+    virtual bool stopFound();
+	virtual void cycleTillDone();
+    virtual void flushPipelines();
 
 	TimingDiagram *timingDiagram;
 };

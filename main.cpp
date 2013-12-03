@@ -4,12 +4,12 @@
 int main() {
 	// Run the CDC6600 Emulator
 	/*CDCEmulator *emu = new CDC6600Emulator();
-	emu->run("TestData1.txt");
+	emu->run("TestData1.txt", "6600Output1.csv");
 	delete emu;*/
 
 	// Run the CDC7600 Emulator
 	CDCEmulator *emu = new CDC7600Emulator();
-	emu->run("TestData1.txt", "Output.csv");
+	emu->run("TestData2.txt", "7600Output2.csv");
 	delete emu;
 
 	return 0;

@@ -52,6 +52,16 @@ void FunctionalUnit::clockTick(void)
             if(pipeline[i].isValid)
             {
 				pipeline[i].clockTicks++;
+				/*else */if(/*i > 0 && */( (pipeline[i].clockTicks % segmentTime) == 0) )
+                {
+					if(i == pipelineLength - 1 && pipeline[i].isValid) {
+						timingDiagram->setUnit(pipeline[i].inst.getInstructionNumb());
+					}
+					if(i > 0) {
+						pipeline[i - 1] = pipeline[i];
+						pipeline[i].isValid = false;
+					}
+                }
                 if(pipeline[i].clockTicks == executionTime)
                 {
                     resultIsReady = true;
@@ -60,14 +70,7 @@ void FunctionalUnit::clockTick(void)
 						pipeline[i].isValid = false;
 					}
                 }
-                else if(i > 0 && ( (pipeline[i].clockTicks % segmentTime) == 0) )
-                {
-					if(i == pipelineLength - 1 && pipeline[i].isValid) {
-						timingDiagram->setUnit(pipeline[i].inst.getInstructionNumb());
-					}
-                    pipeline[i - 1] = pipeline[i];
-                    pipeline[i].isValid = false;
-                }
+                
             }
         }
     }

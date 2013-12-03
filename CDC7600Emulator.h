@@ -2,6 +2,7 @@
 #define CDC7600EMULATOR_H
 
 #include "CDCEmulator.h"
+#include "Scoreboard7600.h"
 
 class CDC7600Emulator : public CDCEmulator {
 public:
@@ -10,7 +11,7 @@ public:
 	virtual int run(string infile, string outfile);
 
 private:
-	Scoreboard7600 *scoreboard;
+	Scoreboard *scoreboard;
 
 };
 

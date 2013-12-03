@@ -16,10 +16,10 @@ Scoreboard6600::Scoreboard6600(TimingDiagram *timingDiagram)
     brancher = new FunctionalUnit(8, 8);  // 8 cycles is a simplification
 
     functionalUnits = new FunctionalUnit*[num_FU];
-    functionalUnits[0] = floatingAdder;
-    functionalUnits[1] = multiplier1;
-    functionalUnits[2] = multiplier2;
-    functionalUnits[3] = divider;
+    functionalUnits[0] = multiplier1;
+    functionalUnits[1] = multiplier2;
+    functionalUnits[2] = divider;
+    functionalUnits[3] = floatingAdder;
     functionalUnits[4] = fixedAdder;
     functionalUnits[5] = incrementer1;
     functionalUnits[6] = incrementer2;
@@ -38,6 +38,7 @@ Scoreboard6600::Scoreboard6600(TimingDiagram *timingDiagram)
     functionalUnits[8]->timingDiagram = timingDiagram;
     functionalUnits[9]->timingDiagram = timingDiagram;
 
+	this->timingDiagram = timingDiagram;
 
     stop_found = false;
 }
@@ -143,12 +144,12 @@ void Scoreboard6600::clockTick()
 {
     for(int i = 0; i < num_FU; i++)
     {
+        functionalUnits[i]->clockTick();
         Instruction inst = functionalUnits[i]->getInstruction(functionalUnits[i]->getPipelineLength()-1);
         if(inst.isValid() && functionalUnits[i]->getDontExecuteInstruction() && !readAfterWriteConflict(inst)) {
             functionalUnits[i]->setStartTime(inst);
             functionalUnits[i]->setExecuteInstruction(true);
         }
-        functionalUnits[i]->clockTick();
     }
 }
 
@@ -195,20 +196,21 @@ bool Scoreboard6600::readAfterWriteConflict(Instruction inst)
     }
     //Check each instruction in each functional unit to make sure the instruction
     //is not writing to where instruction inst is reading from.
-    for(int i=0; i < sizeof(functionalUnits) / sizeof(functionalUnits[0]); i++)
+    for(int i=0; i < num_FU; i++)
     {
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
-            if(inst.getInstructionNumb() != functionalUnits[i]->getInstruction(j).getInstructionNumb())
+			Instruction tempInst = functionalUnits[i]->getInstruction(j);
+            if(functionalUnits[i]->getPipelineItem(j).isValid && tempInst.isValid() && inst.getInstructionNumb() != tempInst.getInstructionNumb())
             {
-                if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0]
-                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
-                    || (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1]
-                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg())
-                        && (inst.getKReg() != noRegister || inst.getJReg() != noRegister))
+                if((tempInst.getI() == readRegisters[0] && tempInst.getIReg() == inst.getJReg())
+                    || (tempInst.getI() == readRegisters[1] && tempInst.getIReg() == inst.getKReg())
+					|| (tempInst.getIReg() == xRegister && inst.getIReg() == aRegister && tempInst.getI() == inst.getI())
+					&& (inst.getKReg() != noRegister || inst.getJReg() != noRegister))
                 {
                     conflictExists = true;
                     printf("Read After Write! Instruction %i and %i\n\r", inst.getInstructionNumb(), functionalUnits[i]->getInstruction(j).getInstructionNumb());
+					break;
                 }
             }
         }
@@ -246,16 +248,17 @@ void Scoreboard6600::cycleTillDone()
     bool FU_busy = false;
     while(!done){
         clockTick();
+		timingDiagram->cycle();
         done = true;
         for(int i = 0; i < num_FU; i++) {
             FU_busy = false;
             for(int j = 0; j < functionalUnits[i]->getPipelineLength(); j++) {
-                if(j != 0) {
+                //if(j != 0) {
                     FU_busy |= functionalUnits[i]->getPipelineItem(j).isValid;
-                }
+                /*}
                 else {
                     FU_busy |= (functionalUnits[i]->getPipelineItem(j).isValid && functionalUnits[i]->resultReady());
-                }
+                }*/
             }
             done &= !FU_busy;
         }

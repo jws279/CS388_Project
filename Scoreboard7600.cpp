@@ -144,7 +144,6 @@ void Scoreboard7600::clockTick()
 		if(inst.isValid() && functionalUnits[i]->getDontExecuteInstruction() && !readAfterWriteConflict(inst)) {
 			functionalUnits[i]->setStartTime(inst);
 			functionalUnits[i]->setExecuteInstruction(true);
-			//functionalUnits[i]->incrementPipelineTicks(functionalUnits[i]->getPipelineLength()-1);
 		}
     }
 }
@@ -261,4 +260,12 @@ void Scoreboard7600::cycleTillDone()
 	};
 
     return;
+}
+
+void Scoreboard7600::flushPipelines()
+{
+    for(int i=0; i < sizeof(functionalUnits) / sizeof(functionalUnits[0]); i++)
+    {
+        functionalUnits[i]->getPipelineLength();
+    }
 }

@@ -2,25 +2,25 @@
 #define INSTRUCTIONPIPELINE_H
 
 #include "Instruction.h"
-#include "Scoreboard7600.h"
+#include "Scoreboard.h"
 #include <iostream>
 
 using namespace std;
 
 class InstructionPipeline {
 public:
-	InstructionPipeline(/*Scoreboard7600 *scoreboard*/);
+	InstructionPipeline();
 	~InstructionPipeline();
 
 	bool cycle(Instruction instruction);
-	void setScoreboard(Scoreboard7600 *scoreboard);
+	void setScoreboard(Scoreboard *scoreboard);
 
 private:
 	Instruction reg_U0;
 	Instruction reg_U1;
 	Instruction reg_U2;
 
-	Scoreboard7600 *scoreboard_ptr;
+	Scoreboard *scoreboard_ptr;
 };
 
 #endif

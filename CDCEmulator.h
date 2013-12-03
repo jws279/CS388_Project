@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include "Scoreboard7600.h"
 #include "InstructionPipeline.h"
 #include "InstructionParser.h"
 #include "TimingDiagram.h"

@@ -35,6 +35,6 @@ bool InstructionPipeline::cycle(Instruction instruction) {
 	return false;
 }
 
-void InstructionPipeline::setScoreboard(Scoreboard7600 *scoreboard) {
+void InstructionPipeline::setScoreboard(Scoreboard *scoreboard) {
 	scoreboard_ptr = scoreboard;
 }

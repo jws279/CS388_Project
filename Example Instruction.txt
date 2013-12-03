@@ -21,7 +21,7 @@ X7 = X6 + X3; A7 = A7 + K7;                // Form Y; Store Y; <end program>
 Y = AX^2 + BX + C
 
 A1 = A1 + K1; A2 = A2 + K2;                // Fetch X; Fetch A;
-X0 = X1 * X1; X6 = X0 * X2; A3 = A3 + K3   // Form X^2; Form AX^2; Fetch B;
+X0 = X1 * X1; A3 = A3 + K3; X6 = X0 * X2   // Form X^2; Fetch B; Form AX^2;
 A4 = A4 + K4; X3 = X3 * X1; X5 = X6 + X3   // Fetch C; Form BX; Form AX^2 + BX
 X7 = X5 + X4; A7 = A7 + K5;                // Form Y; Store Y; <end program>
 

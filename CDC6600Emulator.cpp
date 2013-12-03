@@ -2,7 +2,7 @@
 
 CDC6600Emulator::CDC6600Emulator()  {
 	fetchDelay = 5;
-    scoreboard = new Scoreboard7600(timingDiagram);
+    scoreboard = new Scoreboard6600(timingDiagram);
 	instrPipe->setScoreboard(scoreboard);
 }
 
