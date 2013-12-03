@@ -138,7 +138,7 @@ void Scoreboard7600::clockTick()
     for(int i = 0; i < num_FU; i++)
     {
 		Instruction inst = functionalUnits[i]->getInstruction(functionalUnits[i]->getPipelineLength()-1);
-		if(inst.isValid() && !readAfterWriteConflict(inst)) {
+		if(inst.isValid() && functionalUnits[i]->getDontExecuteInstruction() && !readAfterWriteConflict(inst)) {
 			functionalUnits[i]->setStartTime(inst);
 			functionalUnits[i]->setExecuteInstruction(true);
 		}
@@ -193,9 +193,9 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
             if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0] 
-				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getIReg())
+				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
 				|| (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1] 
-				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getIReg()))
+				&& functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg()))
             {
                 conflictExists = true;
             }
