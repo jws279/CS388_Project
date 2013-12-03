@@ -1,5 +1,5 @@
-#ifndef SCOREBOARD_7600_H
-#define SCOREBOARD_7600_H
+#ifndef SCOREBOARD_6600_H
+#define SCOREBOARD_6600_H
 
 #include "Instruction.h"
 #include "FunctionalUnit.h"
@@ -8,21 +8,22 @@
 
 using namespace std;
 
-class Scoreboard7600 {
+class Scoreboard6600 {
 private:
 
     FunctionalUnit *floatingAdder;
-    FunctionalUnit *multiplier;
+    FunctionalUnit *multiplier1;
+    FunctionalUnit *multiplier2;
     FunctionalUnit *divider;
     FunctionalUnit *fixedAdder;
-    FunctionalUnit *incrementer;
+    FunctionalUnit *incrementer1;
+    FunctionalUnit *incrementer2;
     FunctionalUnit *booleaner;
     FunctionalUnit *shifter;
-    FunctionalUnit *popCounter;
-    FunctionalUnit *normalizer;
+    FunctionalUnit *brancher;
 
     FunctionalUnit** functionalUnits;
-	static const int num_FU = 9;
+    static const int num_FU = 9;
 
     bool stop_found;
 
@@ -33,13 +34,13 @@ private:
     bool writeAfterReadConflict(Instruction inst);
 
 public:
-    Scoreboard7600(TimingDiagram *timingDiagram);
-	~Scoreboard7600();
+    Scoreboard6600(TimingDiagram *timingDiagram);
+    ~Scoreboard6600();
     bool receiveNextInstruction(Instruction instruction);
     bool stopFound();
-	void cycleTillDone();
+    void cycleTillDone();
 
-	TimingDiagram *timingDiagram;
+    TimingDiagram *timingDiagram;
 };
 
 #endif
