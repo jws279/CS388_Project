@@ -193,16 +193,17 @@ bool Scoreboard7600::readAfterWriteConflict(Instruction inst)
     {
         for(int j=0; j < functionalUnits[i]->getPipelineLength(); j++)
         {
-			if(functionalUnits[i]->getInstruction(j).isValid() && inst.getInstructionNumb() != functionalUnits[i]->getInstruction(j).getInstructionNumb())
+			Instruction tempInst = functionalUnits[i]->getInstruction(j);
+			if(functionalUnits[i]->getPipelineItem(j).isValid && tempInst.isValid() && inst.getInstructionNumb() != tempInst.getInstructionNumb())
             {
-                if((functionalUnits[i]->getInstruction(j).getI() == readRegisters[0]
-                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getJReg())
-                    || (functionalUnits[i]->getInstruction(j).getI() == readRegisters[1]
-                    && functionalUnits[i]->getInstruction(j).getIReg() == inst.getKReg())
-						&& (inst.getKReg() != noRegister || inst.getJReg() != noRegister))
+                if((tempInst.getI() == readRegisters[0]
+                    && tempInst.getIReg() == inst.getJReg())
+                    || (tempInst.getI() == readRegisters[1]
+                    && tempInst.getIReg() == inst.getKReg())
+					&& (inst.getKReg() != noRegister || inst.getJReg() != noRegister))
                 {
                     conflictExists = true;
-                    printf("Read After Write! Instruction %i and %i\n\r", inst.getInstructionNumb(), functionalUnits[i]->getInstruction(j).getInstructionNumb());
+                    printf("Read After Write! Instruction %i and %i\n\r", inst.getInstructionNumb(), tempInst.getInstructionNumb());
 					break;
 				}
             }

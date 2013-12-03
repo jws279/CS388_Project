@@ -62,6 +62,7 @@ void FunctionalUnit::clockTick(void)
                     resultIsReady = true;
 					if(pipeline[i].isValid) {
 						timingDiagram->setResult(pipeline[i].inst.getInstructionNumb());
+						pipeline[i].isValid = false;
 					}
                 }
                 else if(i > 0 && ( (pipeline[i].clockTicks % segmentTime) == 0) )
