@@ -36,6 +36,9 @@ vector<Instruction> parseInstructionFile(string fileName)
                 int i = -1;
                 int j = -1;
                 int k = -1;
+                registerName iReg = noRegister;
+                registerName jReg = noRegister;
+                registerName kReg = noRegister;
                 bool longInstruction = false;
     			cout<<"buffer: "<<(char)(buf[offset + 0]+'0')<<endl;
                 //Get the parse the op code
@@ -50,32 +53,61 @@ vector<Instruction> parseInstructionFile(string fileName)
                                 longInstruction = false;
                                 break;
                             case 1:
+                                op = branchUnconditional_INSTR;
+                                break;
                             case 2:
                                 op = branchUnconditional_INSTR;
+                                iReg = bRegister;
                                 break;
                             case 3:
                                 op = branchLongAdd_INSTR;
+                                jReg = xRegister
                                 break;
                             default: // 04 - 07
                                 op = branchIncrement_INSTR;
+                                iReg = bRegister;
                                 break;
                         }
                         break;
                     case 1:  // Boolean
                         op = boolean_INSTR;
+                        switch(buf[offset + 1])
+                        {
+                            case 0:
+                                jReg = xRegister;
+                                iReg = xRegister;
+                                break;
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 5:
+                            case 6:
+                            case 7:
+                                jReg = xRegister;
+                                iReg = xRegister;
+                                kReg = xRegister;
+                                break;
+                            case 4:
+                                kReg = xRegister;
+                                iReg = xRegister;
+                                break;
+                        }
                         break;
                     case 2:  // Shift
                         switch(buf[offset + 1])
                         {
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
+                            case 4:
                             case 6:
                             case 7:
+                                kReg = xRegister;
+                            case 2:
+                            case 3:
+                                jReg = bRegister;
+                            case 0:
+                            case 1:
                                 op = shift_INSTR;
+                                iReg = xRegister;
                                 break;
-                            case 4:
                             case 5:
                                 op = shiftNormalize_INSTR;
                                 break;
@@ -91,9 +123,15 @@ vector<Instruction> parseInstructionFile(string fileName)
                             case 4:
                             case 5:
                                 op = floatingAdd_INSTR;
+                                iReg = xRegister;
+                                jReg = xRegister;
+                                kReg = xRegister;
                                 break;
                             case 6:
                             case 7:
+                                iReg = xRegister;
+                                jReg = xRegister;
+                                kReg = xRegister;
                                 op = fixedAdd_INSTR;
                                 break;
                         }
@@ -111,6 +149,9 @@ vector<Instruction> parseInstructionFile(string fileName)
                                 break;
                             case 4:
                             case 5:
+                                iReg = xRegister;
+                                jReg = xRegister;
+                                kReg = xRegister;
                                 op = floatingDivide_INSTR;
                                 break;
                             case 6:
@@ -118,10 +159,13 @@ vector<Instruction> parseInstructionFile(string fileName)
                                 break;
                             case 7:
                                 op = populationCount_INSTR;
+                                iReg = xRegister;
+                                kReg = xRegister;
                                 break;
                         }
                         break;
                     case 5:  // Increment
+
                     case 6:  // Increment
                     case 7:  // Increment
                         op = increment_INSTR;
@@ -161,7 +205,6 @@ vector<Instruction> parseInstructionFile(string fileName)
                 printf("k: %i\n\r", k);
                 Instruction inst(op, i, j, k, longInstruction);
                 v.push_back(inst);
-
             }
         }
     }

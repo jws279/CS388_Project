@@ -1,6 +1,6 @@
 #include "Instruction.h"
 
-Instruction::Instruction(OpCodeEnum op, int I, int J, int K, bool isLong)
+Instruction::Instruction(OpCodeEnum op, int I, int J, int K, registerName iReg, registerName jReg, registerName kReg, bool isLong)
 {
     fm = op;
     i = I;
@@ -15,6 +15,9 @@ Instruction::Instruction(void)
     i = -1;
     j = -1;
     k = -1;
+    iReg = noRegister;
+    jReg = noRegister;
+    kReg = noRegister;
     validInstruction = false;
     longInstruction = false;
 }
@@ -62,4 +65,19 @@ void Instruction::setInstructionNumb(int numb)
 int Instruction::getInstructionNumb()
 {
     return instructionNumb;
+}
+
+registerName getIReg()
+{
+    return IReg;
+}
+
+registerName getJReg()
+{
+    return JReg;
+}
+
+registerName getKReg()
+{
+    return KReg;
 }

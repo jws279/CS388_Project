@@ -20,6 +20,13 @@ typedef enum {
     normalize_INSTR,
 } OpCodeEnum;
 
+typedef enum {
+    noRegister,
+    aRegister,
+    bRegister,
+    xRegister,
+} registerName;
+
 class Instruction
 {
 private:
@@ -27,6 +34,9 @@ private:
     int i;
     int j;
     int k;
+    registerName iReg;
+    registerName jReg;
+    registerName kReg;
     int instructionNumb;  // This is the index of the instruction in the code
     bool validInstruction;
     bool longInstruction;
@@ -40,6 +50,11 @@ public:
     int getI(void);
     int getJ(void);
     int getK(void);
+
+    registerName getIReg();
+    registerName getJReg();
+    registerName getKReg();
+
     bool isValid(void);
     bool isLong();
 	void setNoop();
